@@ -17,13 +17,23 @@
                         {{ __('Settings') }}
                     </a>
                 </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="block w-full px-4 py-2 rounded-md font-medium hover:bg-gray-300 text-start">
+                            {{ __('Logout') }}
+                        </button>
+                    </form>
+                </li>
             </ul>
         </div>
 
         <button class="absolute bottom-2 p-2 w-60 px-4 py-2 bg-gray-200 rounded-md" data-dropdown-trigger="click"
             id="userDropdownButton" data-dropdown-toggle="userDropdown" data-dropdown-placement="top" type="button">
             <div class="flex flex-row items-center space-x-2">
-                <x-heroicon-s-user class="w-7 h-7" />
+                <img src="{{ auth()->user()->defaultAvatar() ?? auth()->user()->avatar }}"
+                    class="w-7 h-7 rounded-full object-cover" />
 
                 <div class="flex flex-col items-start">
                     <span class="font-medium">{{ Auth::user()->name ?? 'Guest' }}</span>
