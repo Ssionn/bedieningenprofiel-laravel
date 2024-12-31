@@ -6,4 +6,9 @@ return [
     'links' => [
         'dashboard' => 'Dashboard',
     ],
+
+    'user_dropdown' => [
+        'settings' => 'Settings',
+        'logout' => 'Logout',
+    ]
 ];

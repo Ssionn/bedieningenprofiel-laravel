@@ -14,7 +14,7 @@
             <ul class="space-y-1">
                 <li>
                     <a href="#" class="block px-4 py-2 rounded-md font-medium hover:bg-gray-300">
-                        {{ __('Settings') }}
+                        {{ __('navigation/sidebar.user_dropdown.settings') }}
                     </a>
                 </li>
                 <li>
@@ -22,7 +22,7 @@
                         @csrf
                         <button type="submit"
                             class="block w-full px-4 py-2 rounded-md font-medium hover:bg-gray-300 text-start">
-                            {{ __('Logout') }}
+                            {{ __('navigation/sidebar.user_dropdown.logout') }}
                         </button>
                     </form>
                 </li>
