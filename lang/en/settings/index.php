@@ -3,7 +3,7 @@
 return [
     'headers' => [
         'localization' => [
-            'header' => 'Localization',
+            'header' => 'Languages',
             'subheader' => 'Select your preferred language',
 
             'button' => 'Save'
