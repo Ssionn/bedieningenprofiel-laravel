@@ -1,5 +1,3 @@
-@props(['locales' => []])
-
 <div class="bg-gray-100 w-full md:w-2/3 rounded-md p-2">
     <h1 class="font-medium text-2xl">{{ __('settings/index.headers.localization.header') }}</h1>
     <p class="font-light text-xs text-gray-400">{{ __('settings/index.headers.localization.subheader') }}</p>

@@ -10,6 +10,7 @@
     <title>{{ config('app.name') }}</title>
 
     @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @filamentStyles
 </head>
 
 <body class="m-0">
@@ -21,6 +22,8 @@
         {{ $slot }}
     </main>
 
+    @livewire('notifications')
+    @filamentScripts
 </body>
 
 </html>

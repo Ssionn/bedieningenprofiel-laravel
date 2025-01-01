@@ -17,18 +17,4 @@ class SettingsController extends Controller
 
         return view('settings.index', compact('locales'));
     }
-
-    public function updateLocale(Request $request)
-    {
-        $request->validate([
-            'locale' => 'required',
-        ]);
-
-        Localization::where('user_id', Auth::id())
-            ->update([
-                'selected' => DB::raw("CASE WHEN locale = '{$request->locale}' THEN true ELSE false END")
-            ]);
-
-        return redirect()->route('settings');
-    }
 }

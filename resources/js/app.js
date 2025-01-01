@@ -1,6 +1,6 @@
-import Alpine from 'alpinejs'
+import Alpine from 'alpinejs';
 import './bootstrap';
 import 'flowbite';
 
-window.Alpine = Alpine
-Alpine.start()
+window.Alpine = Alpine;
+Alpine.start();
