@@ -22,5 +22,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
         ]);
+
+        User::factory()->create([
+            'name' => 'Another User',
+            'email' => 'user@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->call([
+            LocalesSeeder::class
+        ]);
     }
 }
