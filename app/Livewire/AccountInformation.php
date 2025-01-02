@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,7 +21,7 @@ class AccountInformation extends Component
         return view('livewire.account-information');
     }
 
-    public function updateAccountInformation(): RedirectResponse
+    public function updateAccountInformation()
     {
         $this->validate([
             'avatarDropzone' => 'nullable|image|max:2048',

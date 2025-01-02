@@ -2,14 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Localization as ModelsLocalization;
+use App\Models\Localization;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
 
-class Localization extends Component
+class Localizer extends Component
 {
     public $locales;
 
@@ -17,22 +16,22 @@ class Localization extends Component
 
     public function mount()
     {
-        $this->locales = ModelsLocalization::where('user_id', Auth::id())->get();
+        $this->locales = Localization::where('user_id', Auth::id())->get();
         $this->selectedLocale = app()->getLocale();
     }
 
     public function render()
     {
-        return view('livewire.localization');
+        return view('livewire.localizer');
     }
 
-    public function updateLocale(): RedirectResponse
+    public function updateLocale()
     {
         $this->validate([
             'selectedLocale' => 'required|string|in:nl,en',
         ]);
 
-        ModelsLocalization::where('user_id', Auth::id())
+        Localization::where('user_id', Auth::id())
             ->update([
                 'selected' => DB::raw("CASE WHEN locale = '{$this->selectedLocale}' THEN true ELSE false END"),
             ]);

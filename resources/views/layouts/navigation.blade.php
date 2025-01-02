@@ -10,35 +10,38 @@
             </ul>
         </div>
 
-        <div id="userDropdown" aria-labelledby="userDropdownButton" class="p-1 w-60 bg-gray-200 rounded-md">
-            <ul class="space-y-1">
-                <x-sidebar-tab href="{{ route('settings') }}" active="{{ request()->routeIs('settings') }}">
-                    {{ __('navigation/sidebar.user_dropdown.settings') }}
-                </x-sidebar-tab>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit"
-                            class="block w-full px-4 py-2 rounded-md font-medium hover:bg-gray-300 text-start">
-                            {{ __('navigation/sidebar.user_dropdown.logout') }}
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-
-        <button class="absolute bottom-2 p-2 w-60 px-4 py-2 bg-gray-200 rounded-md" data-dropdown-trigger="click"
-            id="userDropdownButton" data-dropdown-toggle="userDropdown" data-dropdown-placement="top" type="button">
-            <div class="flex flex-row items-center space-x-2">
-                <img src="{{ auth()->user()->defaultAvatar() ?? auth()->user()->avatar }}"
-                    class="w-7 h-7 rounded-full object-cover" />
-
-                <div class="flex flex-col items-start">
-                    <span class="font-medium">{{ Auth::user()->name }}</span>
-                    <span class="text-xs text-gray-400">{{ Auth::user()->getShortenedEmailAttribute() }}</span>
-                </div>
+        <div x-data="{ dropdownOpen: false }">
+            <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
+                class="p-1 w-60 bg-gray-200 rounded-md absolute bottom-20">
+                <ul class="space-y-1">
+                    <x-sidebar-tab href="{{ route('settings') }}" active="{{ request()->routeIs('settings') }}">
+                        {{ __('navigation/sidebar.user_dropdown.settings') }}
+                    </x-sidebar-tab>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="block w-full px-4 py-2 rounded-md font-medium hover:bg-gray-300 text-start">
+                                {{ __('navigation/sidebar.user_dropdown.logout') }}
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             </div>
-        </button>
+
+            <button @click="dropdownOpen = !dropdownOpen"
+                class="absolute bottom-2 p-2 w-60 px-4 py-2 bg-gray-200 rounded-md" type="button">
+                <div class="flex flex-row items-center space-x-2">
+                    <img src="{{ auth()->user()->defaultAvatar() ?? auth()->user()->avatar }}"
+                        class="w-7 h-7 rounded-full object-cover" />
+
+                    <div class="flex flex-col items-start">
+                        <span class="font-medium">{{ Auth::user()->name }}</span>
+                        <span class="text-xs text-gray-400">{{ Auth::user()->getShortenedEmailAttribute() }}</span>
+                    </div>
+                </div>
+            </button>
+        </div>
     </div>
 </aside>
 

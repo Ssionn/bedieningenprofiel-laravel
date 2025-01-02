@@ -4,7 +4,7 @@
 
     <div class="mt-4">
         <form wire:submit.prevent="updateLocale" class="flex flex-col">
-            <select wire:model="selectedLocale" class="w-1/2 p-2 rounded-md border border-gray-300 mb-1">
+            <select wire:model="selectedLocale" class="w-full sm:w-1/2 p-2 rounded-md border border-gray-300 mb-1">
                 @foreach ($locales as $locale)
                     <option value="{{ $locale->locale }}" @if ($locale->locale === app()->getLocale()) selected @endif>
                         {{ $locale->language }}

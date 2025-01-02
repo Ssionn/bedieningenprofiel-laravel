@@ -29,9 +29,7 @@ class AuthController extends Controller
             return redirect()->intended('dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return redirect()->route('login')->with('error', 'The provided credentials do not match our records.');
     }
 
     public function logout(Request $request)
