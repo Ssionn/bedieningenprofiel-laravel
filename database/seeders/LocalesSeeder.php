@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Enums\Locale;
 use App\Models\Localization;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 

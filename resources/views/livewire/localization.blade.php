@@ -1,14 +1,13 @@
 <div class="bg-gray-100 w-full md:w-2/3 rounded-md p-2">
     <h1 class="font-medium text-2xl">{{ __('settings/index.headers.localization.header') }}</h1>
-    <p class="font-light text-xs text-gray-400">{{ __('settings/index.headers.localization.subheader') }}</p>
+    <p class="font-light text-xs text-gray-400 italic">{{ __('settings/index.headers.localization.subheader') }}</p>
 
     <div class="mt-4">
-        <form action="{{ route('settings.updateLocale') }}" method="POST" class="flex flex-col">
-            @csrf
-            <select name="locale" id="locale" class="w-1/2 p-2 rounded-md border border-gray-300 mb-1">
+        <form wire:submit.prevent="updateLocale" class="flex flex-col">
+            <select wire:model="selectedLocale" class="w-1/2 p-2 rounded-md border border-gray-300 mb-1">
                 @foreach ($locales as $locale)
-                    <option value="{{ $locale->value }}" @if ($locale->value === app()->getLocale()) selected @endif>
-                        {{ $locale->name }}
+                    <option value="{{ $locale->locale }}" @if ($locale->locale === app()->getLocale()) selected @endif>
+                        {{ $locale->language }}
                     </option>
                 @endforeach
             </select>

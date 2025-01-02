@@ -6,12 +6,30 @@ return [
             'header' => 'Taalinstellingen',
             'subheader' => 'Selecteer uw voorkeurstaal',
 
-            'button' => 'Opslaan'
-        ]
+            'button' => 'Opslaan',
+        ],
+        'account_information' => [
+            'header' => 'Accountinformatie',
+            'subheader' => 'Werk je accountinformatie bij',
+
+            'fields' => [
+                'avatar' => [
+                    'header' => 'Klik om een afbeelding te uploaden of sleep en zet neer',
+                    'subheader' => 'PNG, JPG tot 2MB, MAX. 800px x 400px',
+                ],
+                'username' => 'Gebruikersnaam',
+                'name' => 'Volledige naam',
+                'email' => 'E-mail',
+                'password' => 'Wachtwoord',
+            ],
+
+            'button' => 'Opslaan',
+        ],
     ],
 
     // Changing to english because of language change
     'notifications' => [
-        'success' => 'Your language preference has been saved successfully'
-    ]
+        'saved' => 'Your account information has been saved successfully',
+        'language' => 'Your language preference has been saved successfully',
+    ],
 ];

@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            LocalesSeeder::class
+            LocalesSeeder::class,
         ]);
     }
 }

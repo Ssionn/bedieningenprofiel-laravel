@@ -34,8 +34,8 @@
                     class="w-7 h-7 rounded-full object-cover" />
 
                 <div class="flex flex-col items-start">
-                    <span class="font-medium">{{ Auth::user()->name ?? 'Guest' }}</span>
-                    <span class="text-xs text-gray-400">{{ Auth::user()->email ?? 'just a guest.' }}</span>
+                    <span class="font-medium">{{ Auth::user()->name }}</span>
+                    <span class="text-xs text-gray-400">{{ Auth::user()->getShortenedEmailAttribute() }}</span>
                 </div>
             </div>
         </button>
@@ -64,8 +64,8 @@
                 <img src="{{ auth()->user()->defaultAvatar() ?? auth()->user()->avatar }}"
                     class="w-12 h-12 rounded-full object-cover" />
                 <div>
-                    <span class="block font-medium text-lg">{{ Auth::user()->name ?? 'Guest' }}</span>
-                    <span class="block text-sm text-gray-400">{{ Auth::user()->email ?? 'just a guest.' }}</span>
+                    <span class="block font-medium text-lg">{{ Auth::user()->name }}</span>
+                    <span class="block text-sm text-gray-400">{{ Auth::user()->email }}</span>
                 </div>
             </div>
 

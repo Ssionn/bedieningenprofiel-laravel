@@ -10,5 +10,5 @@ return [
     'user_dropdown' => [
         'settings' => 'Settings',
         'logout' => 'Logout',
-    ]
+    ],
 ];
