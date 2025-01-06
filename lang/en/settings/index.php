@@ -27,9 +27,10 @@ return [
         ],
     ],
 
-    // change this to dutch because of language change
     'notifications' => [
         'saved' => 'Your account information has been saved successfully',
+
+        // change this to dutch because of language change
         'language' => 'Uw taalvoorkeur is succesvol opgeslagen',
     ],
 ];

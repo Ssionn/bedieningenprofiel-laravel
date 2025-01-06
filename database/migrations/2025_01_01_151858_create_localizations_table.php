@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('language');
             $table->string('locale');
             $table->boolean('selected')->default(false);
-            $table->foreignIdFor(User::class, 'user_id')->constrained();
+            $table->foreignIdFor(User::class, 'user_id')
+                ->nullable()
+                ->constrained();
             $table->timestamps();
         });
     }

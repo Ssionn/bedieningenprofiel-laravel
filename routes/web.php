@@ -11,6 +11,9 @@ Route::permanentRedirect('/', '/dashboard');
 Route::get('/panel/login', [AuthController::class, 'login'])->name('login');
 Route::post('/panel/login', [AuthController::class, 'authenticate'])->name('authenticate');
 
+Route::get('/panel/register', [AuthController::class, 'register'])->name('register');
+Route::post('/panel/register', [AuthController::class, 'createAccount'])->name('createAccount');
+
 Route::middleware(['auth', 'web'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

@@ -14,7 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, Notifiable;
 
     protected $hidden = [
         'password',

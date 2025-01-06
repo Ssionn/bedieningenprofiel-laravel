@@ -49,13 +49,13 @@
                 <div class="flex flex-col w-full">
                     <label for="username"
                         class="text-sm font-medium">{{ __('settings/index.headers.account_information.fields.username') }}</label>
-                    <input wire:model="username" type="text" id="username" value="{{ Auth::user()->username }}"
+                    <input wire:model="username" type="text" id="username"
                         class="p-1 rounded-md border border-gray-300 w-full">
                 </div>
                 <div class="flex flex-col w-full">
                     <label for="name"
                         class="text-sm font-medium">{{ __('settings/index.headers.account_information.fields.name') }}</label>
-                    <input wire:model="name" type="text" id="name" value="{{ Auth::user()->name }}"
+                    <input wire:model="name" type="text" id="name"
                         class="p-1 rounded-md border border-gray-300 w-full">
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 <div class="flex flex-col w-full">
                     <label for="email"
                         class="text-sm font-medium">{{ __('settings/index.headers.account_information.fields.email') }}</label>
-                    <input wire:model="email" type="email" id="email" value="{{ Auth::user()->email }}"
+                    <input wire:model="email" type="email" id="email"
                         class="p-1 rounded-md border border-gray-300 mb-1 w-full">
                 </div>
             </div>

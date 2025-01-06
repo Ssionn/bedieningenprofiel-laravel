@@ -1,7 +1,7 @@
 <?php
 
 test('Localization model belongs to User model', function () {
-    $localization = new \App\Models\Localization();
+    $localization = new \App\Models\Localization;
     $relation = $localization->user();
 
     expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);

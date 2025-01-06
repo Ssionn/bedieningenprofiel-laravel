@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -12,13 +13,18 @@ class AccountInformation extends Component
     use WithFileUploads;
 
     public $avatarDropzone;
+
     public $username;
+
     public $name;
+
     public $email;
 
-    public function render()
+    public function mount(): void
     {
-        return view('livewire.account-information');
+        $this->username = Auth::user()->username;
+        $this->name = Auth::user()->name;
+        $this->email = Auth::user()->email;
     }
 
     public function updateAccountInformation()
@@ -32,11 +38,11 @@ class AccountInformation extends Component
 
         $user = Auth::user();
 
-        if ($user->getMedia('user_avatar')->count() > 0) {
+        if ($user->getMedia('user_avatar')->count() > 0 && $this->avatarDropzone !== null) {
             $user->getMedia('user_avatar')->first()->delete();
         }
 
-        if ($this->avatarDropzone) {
+        if ($this->avatarDropzone !== null) {
             $user->addMedia($this->avatarDropzone->getRealPath())
                 ->toMediaCollection('user_avatar');
         }
@@ -48,12 +54,17 @@ class AccountInformation extends Component
         ]);
 
         Notification::make()
-            ->title(__('settings/index.notifications.success'))
+            ->title(__('settings/index.notifications.saved'))
             ->icon('heroicon-o-check-circle')
             ->duration(2500)
             ->success()
             ->send();
 
         return redirect()->route('settings');
+    }
+
+    public function render(): View
+    {
+        return view('livewire.account-information');
     }
 }

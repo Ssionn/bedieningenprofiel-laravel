@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 
 beforeEach(function () {
@@ -21,6 +22,12 @@ test('that it can visit the login page', function () {
     $response->assertStatus(200);
 });
 
+test('that it can visit the sign up page', function () {
+    $response = $this->get(route('register'));
+
+    $response->assertStatus(200);
+});
+
 test('that the user can login', function () {
     $response = $this->post(route('login'), [
         'email' => $this->user->email,
@@ -28,8 +35,9 @@ test('that the user can login', function () {
     ]);
 
     $response->assertRedirect('/dashboard');
-});
 
+    $this->assertAuthenticatedAs($this->user);
+});
 
 test('that the user can\'t login', function () {
     $response = $this->post(route('login'), [
@@ -39,6 +47,36 @@ test('that the user can\'t login', function () {
 
     $response->assertRedirect()
         ->assertSessionHasErrors('email');
+});
+
+test('that the user can register', function () {
+    $response = $this->post(route('register'), [
+        'username' => 'janedoe69',
+        'name' => 'Jane Doe',
+        'email' => 'janedoe69@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    $user = User::where('email', 'janedoe69@example.com')->first();
+    expect($user)->not->toBeNull();
+
+    $response->assertRedirect();
+
+    $this->assertAuthenticatedAs($user);
+});
+
+test('that the user can\'t register', function () {
+    $response = $this->post(route('register'), [
+        'username' => 'janedoe69',
+        'name' => 'Jane Doe',
+        'email' => 'janedoe69@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password123',
+    ]);
+
+    $response->assertRedirect()
+        ->assertSessionHasErrors('password');
 });
 
 test('that the user can logout', function () {

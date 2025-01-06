@@ -6,8 +6,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
-use function Pest\Laravel\assertDatabaseHas;
-
 beforeEach(function () {
     Artisan::call('migrate:fresh', ['--env' => 'testing']);
 
@@ -45,7 +43,7 @@ it('authenticated user selects different locale', function () {
 
     $this->assertEquals('en', app()->getLocale());
 
-    $middleware = new SetLocale();
+    $middleware = new SetLocale;
     $middleware->handle(request(), function () {
         return response('OK');
     });

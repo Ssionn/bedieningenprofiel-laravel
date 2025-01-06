@@ -1,12 +1,11 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 test('User model has casts', function () {
-    $user = new User();
+    $user = new User;
     $casts = $user->getCasts();
 
     expect($casts)->toBeArray();
@@ -77,23 +76,23 @@ test('email is shortened when the domain leaves no room for username', function 
 });
 
 test('User model belongs to Team model', function () {
-    $team = new \App\Models\Team();
-    $relation = $team->users();
+    $user = new \App\Models\User;
+    $relation = $user->team();
 
-    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
-    expect(get_class($relation->getRelated()))->toBe(\App\Models\User::class);
+    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect(get_class($relation->getRelated()))->toBe(\App\Models\Team::class);
 });
 
 test('User model belongs to Role model', function () {
-    $role = new \App\Models\Role();
-    $relation = $role->users();
+    $user = new \App\Models\User;
+    $relation = $user->role();
 
-    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
-    expect(get_class($relation->getRelated()))->toBe(\App\Models\User::class);
+    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect(get_class($relation->getRelated()))->toBe(\App\Models\Role::class);
 });
 
 test('User model has many Localization models', function () {
-    $user = new \App\Models\User();
+    $user = new \App\Models\User;
     $relation = $user->localizations();
 
     expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
