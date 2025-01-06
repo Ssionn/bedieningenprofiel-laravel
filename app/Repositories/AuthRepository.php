@@ -7,24 +7,28 @@ use App\Models\User;
 
 class AuthRepository
 {
+    private User $user;
+
     public function createUser(
         string $username,
         string $name,
         string $email,
         string $password
-    ): User {
-        return User::create([
+    ): self {
+        $this->user = User::create([
             'username' => $username,
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
             'role_id' => 1,
         ]);
+
+        return $this;
     }
 
-    public function createUserLocalizations(User $user): void
+    public function initLocalization(): User
     {
-        $user->localizations()->createMany(
+        $this->user->localizations()->createMany(
             collect(Locale::cases())->map(function (Locale $locale) {
                 return [
                     'language' => $locale->name,
@@ -34,6 +38,10 @@ class AuthRepository
             })->toArray()
         );
 
-        $user->localizations()->where('locale', Locale::English->value)->update(['selected' => true]);
+        $this->user->localizations()
+            ->where('locale', Locale::English->value)
+            ->update(['selected' => true]);
+
+        return $this->user;
     }
 }
