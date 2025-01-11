@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Enums\Locale;
 use App\Models\User;
+use Filament\Notifications\Notification;
 
 class AuthRepository
 {
@@ -19,9 +20,18 @@ class AuthRepository
             'username' => $username,
             'name' => $name,
             'email' => $email,
-            'password' => bcrypt($password),
+            'password' => $password,
             'role_id' => 1,
         ]);
+
+        if (! $this->user) {
+            Notification::make()
+                ->title('An error occurred while creating your account')
+                ->icon('heroicon-o-x-circle')
+                ->duration(2500)
+                ->danger()
+                ->send();
+        }
 
         return $this;
     }

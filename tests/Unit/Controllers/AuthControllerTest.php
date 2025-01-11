@@ -68,19 +68,22 @@ test('that the user can register', function () {
 
 test('that the user can\'t register', function () {
     $response = $this->post(route('register'), [
-        'username' => 'janedoe69',
-        'name' => 'Jane Doe',
-        'email' => 'janedoe69@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password123',
+        'username' => 'johndoe69',
+        'name' => 'John Doe',
+        'email' => 'johndoe69@example.com',
+        'password' => bcrypt('password'),
+        'password_confirmation' => bcrypt('password'),
+        'role_id' => 1,
     ]);
 
-    $response->assertRedirect()
-        ->assertSessionHasErrors('password');
+    expect(User::where('email', 'johndoe69@example.com')->first())
+        ->toBeNull();
+
+    $response->assertRedirect();
 });
 
 test('that the user can logout', function () {
-    $response = $this->actingAs($this->user)->post('/panel/logout');
+    $response = $this->actingAs($this->user)->post(route('logout'));
 
-    $response->assertRedirect('/');
+    $response->assertRedirect(route('login'));
 });

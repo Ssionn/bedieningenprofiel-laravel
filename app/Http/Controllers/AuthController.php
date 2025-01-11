@@ -48,10 +48,6 @@ class AuthController extends Controller
             $request->password
         )->initLocalization();
 
-        if (! $user) {
-            return redirect()->route('register')->with('error', 'An error occurred while creating your account.');
-        }
-
         Auth::login($user);
 
         return redirect()->route('dashboard');

@@ -14,7 +14,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, InteractsWithMedia, Notifiable;
+    use HasFactory;
+    use InteractsWithMedia;
+    use Notifiable;
 
     protected $hidden = [
         'password',
@@ -38,7 +40,7 @@ class User extends Authenticatable implements HasMedia
         return $this->getMedia('user_avatar')->first()->getUrl();
     }
 
-    public function getShortenedEmailAttribute($maxLength = 20)
+    public function getShortenedEmailAttribute($maxLength = 20): string
     {
         $email = $this->email;
 
