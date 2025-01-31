@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Team::class, 'team_id')->constrained();
             $table->string('name')->unique();
-            $table->foreignIdFor(Team::class, 'global_team_id')->nullable();
+            $table->json('permissions');
             $table->timestamps();
         });
     }

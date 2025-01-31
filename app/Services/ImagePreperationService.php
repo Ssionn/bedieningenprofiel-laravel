@@ -6,16 +6,12 @@ use App\Models\TemporaryFile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImagePreperationService
 {
     /**
      * Creates a record of the temporary stored file.
      *
-     * @param string $path
-     * @param UploadedFile $temporaryFile
-     * @return string
      * @throws \Exception
      */
     public static function temporarilyStoreFileUsingPath(
@@ -43,8 +39,6 @@ class ImagePreperationService
 
     /**
      * Removes the record of the temporary stored file and the file itself.
-     *
-     * @param string $fileName
      */
     public static function removeRecordAndFile(string $fileName): void
     {

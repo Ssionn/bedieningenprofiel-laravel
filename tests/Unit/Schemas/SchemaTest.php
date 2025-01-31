@@ -10,9 +10,7 @@ test('users schema has expected columns', function () {
             'email',
             'email_verified_at',
             'password',
-            'avatar',
-            'role_id',
-            'team_id',
+            'max_teams',
             'remember_token',
             'created_at',
             'updated_at',
@@ -27,7 +25,7 @@ test('teams schema has expected columns', function () {
             'id',
             'name',
             'description',
-            'owner_id',
+            'user_id',
             'created_at',
             'updated_at',
         ]),
@@ -39,8 +37,9 @@ test('roles schema has expected columns', function () {
     $this->assertTrue(
         Schema::hasColumns('roles', [
             'id',
+            'team_id',
             'name',
-            'global_team_id',
+            'permissions',
             'created_at',
             'updated_at',
         ]),
@@ -50,17 +49,7 @@ test('roles schema has expected columns', function () {
 
 test('foreign keys are correctly defined', function () {
     $this->assertTrue(
-        Schema::hasColumn('users', 'team_id'),
-        'The users table is missing the team_id foreign key.'
-    );
-
-    $this->assertTrue(
-        Schema::hasColumn('users', 'role_id'),
-        'The users table is missing the role_id foreign key.'
-    );
-
-    $this->assertTrue(
-        Schema::hasColumn('teams', 'owner_id'),
+        Schema::hasColumn('teams', 'user_id'),
         'The teams table is missing the owner_id foreign key.'
     );
 });

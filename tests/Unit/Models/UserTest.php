@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -44,11 +45,12 @@ it('returns the uploaded avatar URL if it exists', function () {
         'order_column' => 1,
     ]);
 
-    $url = '/storage/1/avatar.jpg';
     $media->update(['file_name' => 'avatar.jpg', 'disk' => 'public']);
     Storage::disk('public')->put('avatar.jpg', 'fake-content');
 
-    expect($user->defaultAvatar())->toBe($url);
+    expect($user->defaultAvatar())->toBe($media->getTemporaryUrl(
+        Carbon::now()->addMinutes(5),
+    ));
 });
 
 test('email is not shortened if it is within maxLength', function () {
@@ -75,20 +77,12 @@ test('email is shortened when the domain leaves no room for username', function 
     expect($user->getShortenedEmailAttribute(10))->toBe('usernam...');
 });
 
-test('User model belongs to Team model', function () {
+test('User belongs to many teams with role_id pivot', function () {
     $user = new \App\Models\User;
-    $relation = $user->team();
+    $relation = $user->teams();
 
-    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
     expect(get_class($relation->getRelated()))->toBe(\App\Models\Team::class);
-});
-
-test('User model belongs to Role model', function () {
-    $user = new \App\Models\User;
-    $relation = $user->role();
-
-    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
-    expect(get_class($relation->getRelated()))->toBe(\App\Models\Role::class);
 });
 
 test('User model has many Localization models', function () {

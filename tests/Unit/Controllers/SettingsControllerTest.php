@@ -8,10 +8,7 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = User::factory()->create([
-        'email' => 'johndoe@test.com',
-        'password' => bcrypt('password'),
-    ]);
+    $this->user = User::factory()->create();
 });
 
 it('can show the settings', function () {

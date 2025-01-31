@@ -8,12 +8,7 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = \App\Models\User::factory()->create([
-        'username' => 'johndoe69',
-        'name' => 'John Doe',
-        'email' => 'johndoe@example.com',
-        'password' => bcrypt('password'),
-    ]);
+    $this->user = User::factory()->create();
 });
 
 test('that it can visit the login page', function () {
@@ -73,7 +68,6 @@ test('that the user can\'t register', function () {
         'email' => 'johndoe69@example.com',
         'password' => bcrypt('password'),
         'password_confirmation' => bcrypt('password'),
-        'role_id' => 1,
     ]);
 
     expect(User::where('email', 'johndoe69@example.com')->first())

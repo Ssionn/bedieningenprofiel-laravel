@@ -11,11 +11,7 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = User::factory()->create([
-        'id' => 3,
-        'email' => 'johndoe@test.com',
-        'password' => bcrypt('password'),
-    ]);
+    $this->user = User::factory()->create();
 });
 
 it('authenticated user selects different locale', function () {

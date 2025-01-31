@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RolesSeeder::class,
-            /* LocalesSeeder::class, */
+            /* RolesSeeder::class, */
+            LocalesSeeder::class,
         ]);
     }
 }

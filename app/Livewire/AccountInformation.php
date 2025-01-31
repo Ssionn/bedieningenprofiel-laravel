@@ -2,11 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\TemporaryFile;
 use App\Services\ImagePreperationService;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;

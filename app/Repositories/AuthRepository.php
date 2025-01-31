@@ -21,7 +21,6 @@ class AuthRepository
             'name' => $name,
             'email' => $email,
             'password' => $password,
-            'role_id' => 1,
         ]);
 
         if (! $this->user) {
