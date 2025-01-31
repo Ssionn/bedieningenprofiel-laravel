@@ -3,6 +3,7 @@
         <div class="flex flex-col items-center space-y-4">
             @livewire('account-information')
             @livewire('localizer', ['locales' => $locales])
+            <x-backgroundcolor-selector />
         </div>
     </div>
 </x-app-layout>

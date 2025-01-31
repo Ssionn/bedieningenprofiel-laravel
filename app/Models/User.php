@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +16,7 @@ class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use InteractsWithMedia;
     use Notifiable;
 
@@ -37,7 +39,9 @@ class User extends Authenticatable implements HasMedia
             return 'https://ui-avatars.com/api/?name=' . urlencode($this->username) . '&background=random&color=random?size=128';
         }
 
-        return $this->getMedia('user_avatar')->first()->getUrl();
+        return $this->getMedia('user_avatar')->first()->getTemporaryUrl(
+            Carbon::now()->addMinutes(5),
+        );
     }
 
     public function getShortenedEmailAttribute($maxLength = 20): string

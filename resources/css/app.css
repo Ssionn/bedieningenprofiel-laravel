@@ -2,3 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+
+:root {
+    --dark-full: #09090B;
+    --dark-light: #27272A;
+    --dark-shadWhite: #FAFAFA;
+
+    --light-full: #fff;
+    --light-dark: #09090B;
+    --light-shadGray: #71717A;
+}

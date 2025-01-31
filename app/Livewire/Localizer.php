@@ -27,6 +27,10 @@ class Localizer extends Component
 
     public function updateLocale()
     {
+        if ($this->selectedLocale === app()->getLocale()) {
+            return;
+        }
+
         $this->validate([
             'selectedLocale' => 'required|string|in:nl,en',
         ]);

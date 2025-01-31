@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\TemporaryFile;
+use App\Services\ImagePreperationService;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -43,8 +46,13 @@ class AccountInformation extends Component
         }
 
         if ($this->avatarDropzone !== null) {
-            $user->addMedia($this->avatarDropzone->getRealPath())
-                ->toMediaCollection('user_avatar');
+            $path = 'avatars/' . $user->id;
+            $imagePrep = ImagePreperationService::temporarilyStoreFileUsingPath($path, $this->avatarDropzone);
+
+            $user->addMedia(storage_path('app/public/' . $path . '/' . $imagePrep))
+                ->toMediaCollection('user_avatar', 'spaces');
+
+            ImagePreperationService::removeRecordAndFile($imagePrep);
         }
 
         $user->update([

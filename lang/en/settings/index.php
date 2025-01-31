@@ -25,6 +25,19 @@ return [
 
             'button' => 'Save',
         ],
+        'background_color' => [
+            'header' => 'Background color',
+            'subheader' => 'Select your preferred background color',
+
+            'radio_group' => [
+                'light' => 'Light',
+                'dark' => 'Dark',
+            ],
+
+            'notification' => 'Your background color preference has been saved successfully',
+
+            'button' => 'Save',
+        ],
     ],
 
     'notifications' => [

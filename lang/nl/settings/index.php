@@ -25,6 +25,19 @@ return [
 
             'button' => 'Opslaan',
         ],
+        'background_color' => [
+            'header' => 'Achtergrondkleur',
+            'subheader' => 'Selecteer uw voorkeursachtergrondkleur',
+
+            'radio_group' => [
+                'light' => 'Licht',
+                'dark' => 'Donker',
+            ],
+
+            'notification' => 'Uw achtergrondkleurvoorkeur is succesvol opgeslagen',
+
+            'button' => 'Opslaan',
+        ],
     ],
 
     // Changing to english because of language change
