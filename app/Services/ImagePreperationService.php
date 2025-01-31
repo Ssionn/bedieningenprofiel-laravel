@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\TemporaryFile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImagePreperationService
@@ -50,16 +51,11 @@ class ImagePreperationService
         $user = Auth::user();
 
         $temporaryFile = TemporaryFile::where('fileName', $fileName)->first();
-        $mediaRecord = Media::where('model_id', $user->id)->first();
 
         if ($temporaryFile) {
             $temporaryFile->delete();
         }
 
-        $path = 'app/public/avatars/' . $mediaRecord->id . '/' . $fileName;
-
-        if (file_exists(storage_path($path))) {
-            unlink(storage_path($path));
-        }
+        Storage::disk('public')->deleteDirectory('avatars/');
     }
 }
