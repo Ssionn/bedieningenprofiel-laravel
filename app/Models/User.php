@@ -71,8 +71,18 @@ class User extends Authenticatable implements HasMedia
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class)
-            ->using(UserTeam::class)
+            ->using(TeamUser::class)
             ->withPivot('role_id');
+    }
+
+    public function currentTeam(): Team|string
+    {
+        return $this->teams()->first() ?? 'No teams found';
+    }
+
+    public function canCreateTeam(): bool
+    {
+        return $this->teams()->count() < $this->max_teams;
     }
 
     public function localizations(): HasMany

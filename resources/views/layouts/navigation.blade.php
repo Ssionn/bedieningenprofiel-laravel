@@ -11,6 +11,26 @@
             </ul>
         </div>
 
+        <div class="mt-4 border-t p-2">
+            <h2 class="font-medium">{{ __('navigation/sidebar.links.all_teams') }}</h2>
+
+            <div class="mt-2">
+                @if (auth()->user()->canCreateTeam())
+                    <a href=""
+                        class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
+                        <x-fas-plus class="w-4 h-4 mr-2" />
+                        {{ __('navigation/sidebar.links.create_team') }}
+                    </a>
+                @else
+                    <a href=""
+                        class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
+                        <x-fas-plus class="w-4 h-4 mr-2" />
+                        {{ __('navigation/sidebar.links.upgrade_team') }}
+                    </a>
+                @endif
+            </div>
+        </div>
+
         <div x-data="{ dropdownOpen: false }">
             <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
                 class="w-60 bg-secondary-full dark:bg-primary-full rounded-sm border-[1px] border-gray-300 dark:border-primary-light absolute bottom-16">
