@@ -7,6 +7,8 @@ return [
         'dashboard' => 'Dashboard',
         'teams' => 'Teams',
 
+        'no_teams' => 'Het lijkt erop dat je nog geen teams hebt.',
+
         'tag' => [
             'selected' => 'Geselecteerd',
         ],

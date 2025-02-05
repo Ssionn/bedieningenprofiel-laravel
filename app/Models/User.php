@@ -112,6 +112,11 @@ class User extends Authenticatable implements HasMedia
         return $this->teams()->count() <= $this->max_teams;
     }
 
+    public function maxLimitReached(): bool
+    {
+        return $this->teams()->count() >= 10;
+    }
+
     public function localizations(): HasMany
     {
         return $this->hasMany(Localization::class);

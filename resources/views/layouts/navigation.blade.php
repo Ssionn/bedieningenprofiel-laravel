@@ -24,6 +24,9 @@
             <h2 class="font-medium">{{ __('navigation/sidebar.links.all_teams') }}</h2>
 
             <div class="mt-2">
+                @if (auth()->user()->teams()->count() == 0)
+                    <p class="text-sm text-gray-400">{{ __('navigation/sidebar.links.no_teams') }}</p>
+                @endif
                 <div class="mb-4 flex flex-col space-y-1">
                     @foreach (auth()->user()->teams()->get() as $team)
                         <form action="{{ route('teams.switch', $team->id) }}" method="POST">
@@ -42,19 +45,21 @@
                     @endforeach
                 </div>
 
-                @can('create_teams')
-                    <a href="{{ route('teams.create') }}"
-                        class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
-                        <x-fas-plus class="w-4 h-4 mr-2" />
-                        {{ __('navigation/sidebar.links.create_team') }}
-                    </a>
-                @else
-                    <a href=""
-                        class="inline-flex items-center w-full text-xs py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
-                        <x-fas-plus class="w-4 h-4 mr-2" />
-                        {{ __('navigation/sidebar.links.upgrade_team') }}
-                    </a>
-                @endcan
+                @if (!auth()->user()->maxLimitReached())
+                    @can('create_teams')
+                        <a href="{{ route('teams.create') }}"
+                            class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
+                            <x-fas-plus class="w-4 h-4 mr-2" />
+                            {{ __('navigation/sidebar.links.create_team') }}
+                        </a>
+                    @else
+                        <a href=""
+                            class="inline-flex items-center w-full text-xs py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
+                            <x-fas-plus class="w-4 h-4 mr-2" />
+                            {{ __('navigation/sidebar.links.upgrade_team') }}
+                        </a>
+                    @endcan
+                @endif
             </div>
         </div>
 
