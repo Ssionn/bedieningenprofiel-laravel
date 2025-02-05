@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TeamsController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
@@ -21,6 +22,14 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::prefix('settings')->group(function () {
             Route::get('/', [SettingsController::class, 'index'])->name('settings');
         });
+
+        Route::prefix('teams')->group(function () {
+            Route::get('/create', [TeamsController::class, 'create'])->name('teams.create');
+            Route::post('/create', [TeamsController::class, 'store'])->name('teams.store');
+
+            Route::post('/team-switch/{teamId}', [TeamsController::class, 'switchTeam'])->name('teams.switch');
+            Route::get('/{currentTeam}', [TeamsController::class, 'show'])->name('teams.show');
+        })->middleware('teams');
     });
 
     Route::post('/panel/logout', [AuthController::class, 'logout'])->name('logout');

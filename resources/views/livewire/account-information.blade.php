@@ -12,9 +12,6 @@
                 <div class="flex flex-row w-full space-x-2">
                     <img src="{{ Auth::user()->defaultAvatar() }}" alt="Profile Picture"
                         class="rounded-xl w-48 h-48 object-cover border border-gray-200 hover:border-gray-700">
-
-                    <span class="text-sm font-medium italic dark:text-primary-shadWhite">
-                    </span>
                 </div>
             </div>
 
@@ -47,14 +44,14 @@
                     class="flex flex-col items-center justify-center w-full h-24 border-2 dark:border-primary-light border-dashed rounded-sm cursor-pointer bg-secondary-full dark:bg-primary-full"
                     @dragover.prevent
                     @drop.prevent="
-                                const droppedFile = $event.dataTransfer.files[0];
-                                if (['image/png', 'image/jpeg'].includes(droppedFile?.type)) {
-                                    file = droppedFile;
-                                    error = '';
-                                } else {
-                                    error = 'Only PNG and JPG files are allowed.';
-                                }
-                            "
+                        const droppedFile = $event.dataTransfer.files[0];
+                        if (['image/png', 'image/jpeg'].includes(droppedFile?.type)) {
+                            file = droppedFile;
+                            error = '';
+                        } else {
+                            error = 'Only PNG and JPG files are allowed.';
+                        }
+                    "
                     x-bind:class="{ 'bg-secondary-full border-gray-200 dark:border-primary-light dark:bg-primary-full dark:text-primary-shadWhite': file }">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                         <template x-if="!file">
@@ -74,10 +71,9 @@
                 </label>
             </div>
 
-            <button type="submit"
-                class="mt-2 px-4 py-1.5 bg-secondary-light text-secondary-full dark:bg-primary-shadWhite dark:text-primary-full hover:bg-gray-800 dark:hover:bg-gray-200 rounded-sm">
+            <x-button type="submit">
                 {{ __('settings/index.headers.account_information.button') }}
-            </button>
+            </x-button>
         </form>
     </div>
 </div>

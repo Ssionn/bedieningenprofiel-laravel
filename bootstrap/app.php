@@ -18,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'Illuminate\Routing\Middleware\SubstituteBindings',
             'App\Http\Middleware\SetLocale',
         ]);
+        $middleware->group('teams', [
+            'App\Http\Middleware\CanCreateTeamsMiddleware',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

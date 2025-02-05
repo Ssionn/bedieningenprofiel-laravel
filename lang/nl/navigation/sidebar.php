@@ -5,6 +5,11 @@ return [
 
     'links' => [
         'dashboard' => 'Dashboard',
+        'teams' => 'Teams',
+
+        'tag' => [
+            'selected' => 'Geselecteerd',
+        ],
 
         'all_teams' => 'Alle teams',
         'create_team' => 'Team aanmaken',
