@@ -8,6 +8,15 @@
                 <x-sidebar-tab href="{{ route('dashboard') }}" active="{{ request()->routeIs('dashboard') }}">
                     {{ __('navigation/sidebar.links.dashboard') }}
                 </x-sidebar-tab>
+
+                @if (auth()->user()->hasTeams())
+                    @if ($team = auth()->user()->currentTeam()->first())
+                        <x-sidebar-tab href="{{ route('teams.show', auth()->user()->current_team_id) }}"
+                            active="{{ request()->routeIs('teams.show', auth()->user()->current_team_id) }}">
+                            {{ __('navigation/sidebar.links.team') }}
+                        </x-sidebar-tab>
+                    @endif
+                @endif
             </ul>
         </div>
 
@@ -15,19 +24,37 @@
             <h2 class="font-medium">{{ __('navigation/sidebar.links.all_teams') }}</h2>
 
             <div class="mt-2">
-                @if (auth()->user()->canCreateTeam())
-                    <a href=""
+                <div class="mb-4 flex flex-col space-y-1">
+                    @foreach (auth()->user()->teams()->get() as $team)
+                        <form action="{{ route('teams.switch', $team->id) }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="hover:bg-gray-200 rounded-sm w-full py-1.5 px-4 dark:bg-secondary-full dark:text-primary-full flex justify-between items-center">
+                                <span class="text-sm font-medium">{{ $team->name }}</span>
+                                @if (auth()->user()->current_team_id == $team->id)
+                                    <span
+                                        class="font-medium bg-emerald-400 dark:bg-emerald-500 rounded-full text-xs px-2 py-0.5 text-primary-shadWhite">
+                                        {{ __('navigation/sidebar.links.tag.selected') }}
+                                    </span>
+                                @endif
+                            </button>
+                        </form>
+                    @endforeach
+                </div>
+
+                @can('create_teams')
+                    <a href="{{ route('teams.create') }}"
                         class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
                         <x-fas-plus class="w-4 h-4 mr-2" />
                         {{ __('navigation/sidebar.links.create_team') }}
                     </a>
                 @else
                     <a href=""
-                        class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
+                        class="inline-flex items-center w-full text-xs py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
                         <x-fas-plus class="w-4 h-4 mr-2" />
                         {{ __('navigation/sidebar.links.upgrade_team') }}
                     </a>
-                @endif
+                @endcan
             </div>
         </div>
 

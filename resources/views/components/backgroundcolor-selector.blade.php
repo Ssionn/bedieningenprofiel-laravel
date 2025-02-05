@@ -27,12 +27,9 @@
                     <div class="w-4 h-4 bg-primary-full dark:bg-primary-full"></div>
                 </div>
 
-                <div class="">
-                    <button type="submit"
-                        class="mt-2 px-4 py-1.5 w-full bg-secondary-light text-secondary-full dark:text-primary-full dark:bg-primary-shadWhite hover:bg-gray-800 rounded-sm">
-                        {{ __('settings/index.headers.background_color.button') }}
-                    </button>
-                </div>
+                <x-button type="submit">
+                    {{ __('settings/index.headers.background_color.button') }}
+                </x-button>
             </div>
         </form>
     </div>

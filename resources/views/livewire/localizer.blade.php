@@ -12,10 +12,9 @@
                     </option>
                 @endforeach
             </select>
-            <button type="submit"
-                class="mt-2 px-4 py-1.5 bg-secondary-light text-secondary-full dark:text-primary-full dark:bg-primary-shadWhite hover:bg-gray-800 rounded-sm">
+            <x-button type="submit">
                 {{ __('settings/index.headers.localization.button') }}
-            </button>
+            </x-button>
         </form>
     </div>
 </div>
