@@ -9,43 +9,41 @@
                     {{ __('navigation/sidebar.links.dashboard') }}
                 </x-sidebar-tab>
 
-                @if (auth()->user()->hasTeams())
-                    @if ($team = auth()->user()->currentTeam()->first())
-                        <x-sidebar-tab href="{{ route('teams.show', auth()->user()->current_team_id) }}"
-                            active="{{ request()->routeIs('teams.show', auth()->user()->current_team_id) }}">
-                            {{ __('navigation/sidebar.links.team') }}
-                        </x-sidebar-tab>
-                    @endif
-                @endif
+                @can('view_current_team')
+                    <x-sidebar-tab href="{{ route('teams.show', $currentTeam) }}"
+                        active="{{ request()->routeIs('teams.show', $currentTeam) }}">
+                        {{ __('navigation/sidebar.links.team') }}
+                    </x-sidebar-tab>
+                @endcan
             </ul>
         </div>
 
         <div class="mt-4 border-t p-2">
             <h2 class="font-medium">{{ __('navigation/sidebar.links.all_teams') }}</h2>
 
-            <div class="mt-2">
-                @if (auth()->user()->teams()->count() == 0)
-                    <p class="text-sm text-gray-400">{{ __('navigation/sidebar.links.no_teams') }}</p>
-                @endif
-                <div class="mb-4 flex flex-col space-y-1">
-                    @foreach (auth()->user()->teams()->get() as $team)
-                        <form action="{{ route('teams.switch', $team->id) }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="hover:bg-gray-200 rounded-sm w-full py-1.5 px-4 dark:bg-secondary-full dark:text-primary-full flex justify-between items-center">
-                                <span class="text-sm font-medium">{{ $team->name }}</span>
-                                @if (auth()->user()->current_team_id == $team->id)
-                                    <span
-                                        class="font-medium bg-emerald-400 dark:bg-emerald-500 rounded-full text-xs px-2 py-0.5 text-primary-shadWhite">
-                                        {{ __('navigation/sidebar.links.tag.selected') }}
-                                    </span>
-                                @endif
-                            </button>
-                        </form>
-                    @endforeach
-                </div>
+            @can('view_any_attached_team')
+                <div class="mt-2">
+                    @if ($userTeams->isEmpty())
+                        <p class="text-sm text-gray-400">{{ __('navigation/sidebar.links.no_teams') }}</p>
+                    @endif
+                    <div class="mb-4 flex flex-col space-y-1">
+                        @foreach ($userTeams as $team)
+                            <form action="{{ route('teams.switch', $team->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="hover:bg-gray-200 rounded-sm w-full py-1.5 px-4 dark:bg-secondary-full dark:text-primary-full flex justify-between items-center">
+                                    <span class="text-xm font-medium">{{ $team->name }}</span>
+                                    @if (auth()->user()->current_team_id == $team->id)
+                                        <span
+                                            class="font-medium bg-emerald-400 dark:bg-emerald-500 rounded-full text-xs px-2 py-0.5 text-primary-shadWhite">
+                                            {{ __('navigation/sidebar.links.tag.selected') }}
+                                        </span>
+                                    @endif
+                                </button>
+                            </form>
+                        @endforeach
+                    </div>
 
-                @if (!auth()->user()->maxLimitReached())
                     @can('create_teams')
                         <a href="{{ route('teams.create') }}"
                             class="inline-flex items-center w-full text-sm py-1.5 px-4 font-medium rounded-sm bg-primary-full text-primary-shadWhite dark:text-primary-full hover:bg-primary-light dark:hover:bg-gray-200 dark:bg-secondary-full">
@@ -59,8 +57,8 @@
                             {{ __('navigation/sidebar.links.upgrade_team') }}
                         </a>
                     @endcan
-                @endif
-            </div>
+                </div>
+            @endcan
         </div>
 
         <div x-data="{ dropdownOpen: false }">
@@ -87,7 +85,7 @@
                 class="absolute bottom-2 p-2 w-60 px-4 py-2 rounded-sm hover:bg-gray-200 dark:hover:bg-primary-light"
                 type="button">
                 <div class="flex flex-row items-center space-x-2">
-                    <img src="{{ auth()->user()->defaultAvatar() ?? auth()->user()->avatar }}"
+                    <img src="{{ auth()->user()->defaultAvatar() }}"
                         class="w-8 h-8 rounded-full object-cover border" />
 
                     <div class="flex flex-col items-start">

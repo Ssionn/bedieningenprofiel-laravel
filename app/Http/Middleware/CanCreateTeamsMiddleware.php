@@ -15,10 +15,10 @@ class CanCreateTeamsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->teams()->count() >= auth()->user()->max_teams) {
-            abort(403);
+        if (auth()->user()->teams()->count() < auth()->user()->max_teams) {
+            return $next($request);
         }
 
-        return $next($request);
+        abort(403);
     }
 }

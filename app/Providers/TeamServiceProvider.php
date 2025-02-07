@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class TeamServiceProvider extends ServiceProvider
@@ -16,11 +17,22 @@ class TeamServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
-        Gate::define('create_teams', fn (User $user) => $user->teams()->count() < $user->max_teams);
+        Gate::define('view_current_team', fn (User $user) => $user->currentTeam()->exists());
+        Gate::define('create_teams', fn (User $user) => $user->canCreateTeams());
+        Gate::define('view_any_attached_team', fn (User $user) => $user->teams()->exists());
+
+        View::composer('layouts.navigation', function ($view) {
+            if (auth()->check()) {
+                $user = auth()->user();
+                $user->load('teams');
+
+                $view->with([
+                    'userTeams' => $user->teams,
+                    'currentTeam' => $user->teams->find($user->current_team_id),
+                ]);
+            }
+        });
     }
 }

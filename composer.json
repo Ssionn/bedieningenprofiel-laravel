@@ -72,6 +72,10 @@
         "rectify:changes": [
             "./vendor/bin/pint --dirty --config ./pint.json",
             "./vendor/bin/pest --coverage --min=90"
+        ],
+        "rectify:compact": [
+            "./vendor/bin/pint --config ./pint.json",
+            "./vendor/bin/pest --coverage --min=90 --compact"
         ]
     },
     "extra": {

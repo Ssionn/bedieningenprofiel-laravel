@@ -13,14 +13,11 @@ class TeamsController extends Controller
 {
     public function __construct(
         protected TeamRepository $teamRepository
-    ) {
-    }
+    ) {}
 
     public function show(Team $currentTeam): View
     {
-        return view('teams.show', [
-            'team' => $currentTeam,
-        ]);
+        return view('teams.show', compact('currentTeam'));
     }
 
     public function create(): View
@@ -35,7 +32,7 @@ class TeamsController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function switchTeam($teamId): RedirectResponse
+    public function switchTeam(int $teamId): RedirectResponse
     {
         $this->teamRepository->switchTeamId(
             $teamId

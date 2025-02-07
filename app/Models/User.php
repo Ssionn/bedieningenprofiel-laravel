@@ -107,14 +107,9 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Team::class, 'current_team_id');
     }
 
-    public function canCreateTeam(): bool
+    public function canCreateTeams(): bool
     {
-        return $this->teams()->count() <= $this->max_teams;
-    }
-
-    public function maxLimitReached(): bool
-    {
-        return $this->teams()->count() >= 10;
+        return $this->teams()->count() < $this->max_teams;
     }
 
     public function localizations(): HasMany

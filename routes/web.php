@@ -24,12 +24,12 @@ Route::middleware(['auth', 'web'])->group(function () {
         });
 
         Route::prefix('teams')->group(function () {
-            Route::get('/create', [TeamsController::class, 'create'])->name('teams.create');
-            Route::post('/create', [TeamsController::class, 'store'])->name('teams.store');
+            Route::get('/create', [TeamsController::class, 'create'])->name('teams.create')->middleware('teams');
+            Route::post('/create', [TeamsController::class, 'store'])->name('teams.store')->middleware('teams');
 
             Route::post('/team-switch/{teamId}', [TeamsController::class, 'switchTeam'])->name('teams.switch');
             Route::get('/{currentTeam}', [TeamsController::class, 'show'])->name('teams.show');
-        })->middleware('teams');
+        });
     });
 
     Route::post('/panel/logout', [AuthController::class, 'logout'])->name('logout');

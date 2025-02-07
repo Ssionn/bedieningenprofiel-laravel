@@ -9,7 +9,7 @@ class TeamRepository
     ): self {
         $team = auth()->user()->ownedTeams()->create($data);
 
-        $teamLeaderRole = $team->roles()->firstOrCreate([
+        $teamLeaderRole = $team->roles()->create([
             'name' => 'team_leader',
             'permissions' => ['*'],
         ]);
