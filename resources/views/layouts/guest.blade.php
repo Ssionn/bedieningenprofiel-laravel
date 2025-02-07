@@ -12,7 +12,7 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
-<body class="m-0">
+<body class="m-0 font-exo">
 
     <main>
         {{ $slot }}
