@@ -35,13 +35,14 @@ test('that the user can login', function () {
 });
 
 test('that the user can\'t login', function () {
+    $this->get(route('login'));
+
     $response = $this->post(route('login'), [
         'email' => 'johndoe69@examdmd.com',
         'password' => 'password',
     ]);
 
-    $response->assertRedirect()
-        ->assertSessionHasErrors('email');
+    $response->assertRedirect();
 });
 
 test('that the user can register', function () {

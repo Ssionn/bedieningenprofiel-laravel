@@ -4,20 +4,18 @@ use App\Livewire\AccountInformation;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 beforeEach(function () {
     Artisan::call('migrate:fresh', ['--env' => 'testing']);
 
     $this->seed();
+
+    $this->user = User::factory()->create();
 });
 
 it('can update user information without image', function () {
-    $this->actingAs($user = User::factory()->create());
-
-    $this->get(route('settings'))
-        ->assertSeeLivewire('account-information');
+    $this->actingAs($this->user);
 
     Livewire::test(AccountInformation::class)
         ->set('avatarDropzone', null)
@@ -29,17 +27,16 @@ it('can update user information without image', function () {
         ->assertRedirect(route('settings'));
 
     $this->assertTrue(
-        User::where('username', $user->username)
+        User::where('username', $this->user->username)
             ->doesntHave('media')
             ->exists()
     );
 });
 
 it('can update user information with image', function () {
-    $this->actingAs($user = User::factory()->create());
+    $this->actingAs($this->user);
 
-    Storage::fake('public');
-    $file = UploadedFile::fake()->image('avatar.jpg');
+    $file = UploadedFile::fake()->image('avatar.jpg', 128, 128);
 
     $this->get(route('settings'))
         ->assertSeeLivewire('account-information');
@@ -54,8 +51,11 @@ it('can update user information with image', function () {
         ->assertRedirect(route('settings'));
 
     $this->assertTrue(
-        User::where('username', $user->username)
+        User::where('username', $this->user->username)
             ->has('media')
             ->exists()
     );
-});
+})->skip(
+    fn () => ! config('filesystems.disks.spaces.region'),
+    'Spaces is not configured (env.testing). DO NOT PUSH REAL CREDS TO GITHUB!'
+);

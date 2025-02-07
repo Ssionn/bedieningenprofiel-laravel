@@ -2,8 +2,13 @@
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+beforeEach(function () {
+    Artisan::call('migrate:fresh');
+});
 
 test('User model has casts', function () {
     $user = new User;
@@ -75,6 +80,29 @@ test('email is shortened when the domain leaves no room for username', function 
     $user = User::factory()->create(['email' => 'username@longdomain.com']);
 
     expect($user->getShortenedEmailAttribute(10))->toBe('usernam...');
+});
+
+test('User has no teams', function () {
+    $user = new \App\Models\User;
+    $hasTeams = $user->hasTeams();
+
+    expect($hasTeams)->toBeFalse();
+});
+
+test('User has teams that are sorted by owner', function () {
+    $user = new \App\Models\User;
+    $relation = $user->teamsSortedByOwner();
+
+    expect($relation)->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
+    expect(get_class($relation->getRelated()))->toBe(\App\Models\Team::class);
+});
+
+test('User can create a team below count of maximum teams', function () {
+    $user = User::factory()->create();
+
+    $canCreateTeams = $user->canCreateTeams();
+
+    expect($canCreateTeams)->toBeTrue();
 });
 
 test('User belongs to many teams with role_id pivot', function () {

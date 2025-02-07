@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->user = User::factory()->create();
 });
 
-it('can show the dashboard', function () {
+test('can show the dashboard for the user', function () {
     $response = $this->actingAs($this->user)->get(route('dashboard'));
 
     $response->assertStatus(200);
