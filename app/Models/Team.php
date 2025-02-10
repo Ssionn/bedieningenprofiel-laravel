@@ -27,4 +27,9 @@ class Team extends Model
     {
         return $this->belongsToMany(User::class)->using(TeamUser::class)->withPivot('role_id');
     }
+
+    public function remainingUsers(): int
+    {
+        return (int) $this->team_member_limit - (int) $this->remaining_invitations;
+    }
 }

@@ -27,19 +27,41 @@ class TeamsController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $this->teamRepository->createTeam($request->only('name', 'description'));
+        $team = $this->teamRepository->createTeam($request->only('name', 'description'));
+
+        $team->refresh();
+
+        $this->teamRepository->updateRemainingInvitations(
+            $team
+        );
+
+        Notification::make()
+            ->title(__('notification.teams.team_created'))
+            ->success()
+            ->duration(2500)
+            ->send();
 
         return redirect()->route('dashboard');
     }
 
     public function switchTeam(int $teamId): RedirectResponse
     {
+        if (auth()->user()->currentTeam->id === $teamId) {
+            Notification::make()
+                ->title(__('notification.switch.already_on_team'))
+                ->info()
+                ->duration(2500)
+                ->send();
+
+            return redirect()->route('dashboard');
+        }
+
         $this->teamRepository->switchTeamId(
             $teamId
         );
 
         Notification::make()
-            ->title(__('teams/switch.notification.title', ['team' => auth()->user()->currentTeam->name]))
+            ->title(__('notification.switch.title', ['team' => auth()->user()->currentTeam->name]))
             ->success()
             ->duration(2500)
             ->send();

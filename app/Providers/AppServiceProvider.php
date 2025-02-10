@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Filament\Notifications\Livewire\Notifications;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\VerticalAlignment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -27,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureModels();
         $this->configureUrl();
         $this->configureVite();
+        $this->configureNotificationPosition();
     }
 
     private function configureCommands(): void
@@ -53,5 +57,11 @@ class AppServiceProvider extends ServiceProvider
     private function configureVite(): void
     {
         Vite::usePrefetchStrategy('aggressive');
+    }
+
+    private function configureNotificationPosition(): void
+    {
+        Notifications::alignment(Alignment::Center);
+        Notifications::verticalAlignment(VerticalAlignment::Start);
     }
 }

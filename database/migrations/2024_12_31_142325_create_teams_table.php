@@ -15,7 +15,12 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('description');
+            $table->string('description')->nullable();
+            $table->string('state')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->integer('team_member_limit')->default(5);
+            $table->integer('remaining_invitations')->default(5);
             $table->foreignIdFor(User::class, 'user_id')->constrained('users');
             $table->timestamps();
         });

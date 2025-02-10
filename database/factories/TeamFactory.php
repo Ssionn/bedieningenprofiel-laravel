@@ -19,6 +19,11 @@ class TeamFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->sentence,
+            'state' => $this->faker->state,
+            'email' => $this->faker->email,
+            'phone' => $this->faker->phoneNumber,
+            'team_member_limit' => 5,
+            'remaining_invitations' => 5,
             'user_id' => 1,
         ];
     }

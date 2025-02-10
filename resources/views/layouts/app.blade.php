@@ -10,9 +10,7 @@
     <title>{{ config('app.name') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link
-        href="https://fonts.bunny.net/css?family=archivo:400,500,600,700|asap:400,500,600,700|azeret-mono:400,500,600,700|barlow:400,500,600|exo:400,500,600,700"
-        rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=roboto:400,500,700" rel="stylesheet" />
 
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     @filamentStyles
@@ -26,7 +24,7 @@
     </script>
 </head>
 
-<body class="m-0 dark:bg-primary-full font-exo">
+<body class="m-0 dark:bg-primary-full font-roboto">
     <header>
         <x-navigation />
     </header>

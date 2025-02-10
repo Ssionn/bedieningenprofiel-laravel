@@ -13,8 +13,7 @@
 @endphp
 
 <li>
-    <a href="{{ $href }}"
-        {{ $attributes->merge(['class' => 'block py-1.5 px-4 font-medium ' . $rounded . $classes]) }}>
+    <a href="{{ $href }}" {{ $attributes->merge(['class' => 'block py-1.5 px-4 ' . $rounded . $classes]) }}>
         {{ $slot }}
     </a>
 </li>

@@ -1,4 +1,4 @@
-<div class="w-full md:w-2/3 rounded-sm p-2 border bg-secondary-full dark:bg-primary-full dark:border-primary-light">
+<div class="w-full md:w-2/3 rounded-lg p-2 border bg-secondary-full dark:bg-primary-full dark:border-primary-light">
     <h1 class="text-2xl font-medium dark:text-primary-shadWhite">
         {{ __('settings/index.headers.account_information.header') }}
     </h1>
@@ -71,7 +71,7 @@
                 </label>
             </div>
 
-            <x-button type="submit">
+            <x-button type="submit" class="rounded-sm">
                 {{ __('settings/index.headers.account_information.button') }}
             </x-button>
         </form>

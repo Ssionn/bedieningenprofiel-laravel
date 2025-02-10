@@ -60,7 +60,7 @@ class AccountInformation extends Component
         ]);
 
         Notification::make()
-            ->title(__('settings/index.notifications.saved'))
+            ->title(__('notification.settings.saved'))
             ->icon('heroicon-o-check-circle')
             ->duration(2500)
             ->success()

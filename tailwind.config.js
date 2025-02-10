@@ -19,11 +19,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
-                barlow: ["Barlow", "sans-serif"],
-                archivo: ["Archivo", "sans-serif"],
-                azeret: ["Azeret Mono", "monospace"],
-                asap: ["Asap", "sans-serif"],
-                exo: ["Exo", "sans-serif"],
+                roboto: ["Roboto", ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: {

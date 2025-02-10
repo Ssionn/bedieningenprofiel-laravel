@@ -34,46 +34,6 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
-    public function defaultAvatar(): string
-    {
-        if (! $this->getMedia('user_avatar')->count()) {
-            return 'https://ui-avatars.com/api/?name=' . urlencode($this->username) . '&background=random&color=random?size=128';
-        }
-
-        return $this->getMedia('user_avatar')->first()->getTemporaryUrl(
-            Carbon::now()->addMinutes(5),
-        );
-    }
-
-    public function getShortenedEmailAttribute($maxLength = 20): string
-    {
-        $email = $this->email;
-
-        if (strlen($email) <= $maxLength) {
-            return $email;
-        }
-
-        $atPosition = strpos($email, '@');
-        if ($atPosition === false) {
-            return substr($email, 0, $maxLength) . '...';
-        }
-
-        $username = substr($email, 0, $atPosition);
-        $domain = substr($email, $atPosition);
-
-        $availableLength = $maxLength - strlen($domain) - 3;
-        if ($availableLength < 1) {
-            return substr($email, 0, $maxLength - 3) . '...';
-        }
-
-        return substr($username, 0, $availableLength) . '...' . $domain;
-    }
-
-    public function hasTeams(): bool
-    {
-        return $this->teams()->count() > 0;
-    }
-
     public function ownedTeams(): HasMany
     {
         return $this->hasMany(Team::class, 'user_id');
@@ -107,13 +67,58 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Team::class, 'current_team_id');
     }
 
+    public function localizations(): HasMany
+    {
+        return $this->hasMany(Localization::class);
+    }
+
+    public function isOwnerOfTeam(Team $team): bool
+    {
+        return $this->id === $team->user_id;
+    }
+
     public function canCreateTeams(): bool
     {
         return $this->teams()->count() < $this->max_teams;
     }
 
-    public function localizations(): HasMany
+    public function hasTeams(): bool
     {
-        return $this->hasMany(Localization::class);
+        return $this->teams()->count() > 0;
+    }
+
+    public function defaultAvatar(): string
+    {
+        if (! $this->getMedia('user_avatar')->count()) {
+            return 'https://ui-avatars.com/api/?name=' . urlencode($this->username) . '&background=random&color=random?size=128';
+        }
+
+        return $this->getMedia('user_avatar')->first()->getTemporaryUrl(
+            Carbon::now()->addMinutes(5),
+        );
+    }
+
+    public function getShortenedEmailAttribute($maxLength = 20): string
+    {
+        $email = $this->email;
+
+        if (strlen($email) <= $maxLength) {
+            return $email;
+        }
+
+        $atPosition = strpos($email, '@');
+        if ($atPosition === false) {
+            return substr($email, 0, $maxLength) . '...';
+        }
+
+        $username = substr($email, 0, $atPosition);
+        $domain = substr($email, $atPosition);
+
+        $availableLength = $maxLength - strlen($domain) - 3;
+        if ($availableLength < 1) {
+            return substr($email, 0, $maxLength - 3) . '...';
+        }
+
+        return substr($username, 0, $availableLength) . '...' . $domain;
     }
 }

@@ -52,6 +52,7 @@ test('can create a team', function () {
 test('can switch team', function () {
     $initialTeam = $this->user->ownedTeams()->first();
     $initialTeamRole = $initialTeam->roles()->where('team_id', $initialTeam->id)->first();
+    $this->user->update(['current_team_id' => $initialTeam->id]);
 
     $newTeam = Team::factory()->create(['user_id' => $this->user->id]);
     $newTeamRole = $newTeam->roles()->create([
@@ -64,9 +65,10 @@ test('can switch team', function () {
     $this->assertTrue($this->user->teamsWithoutCurrent()->get()->contains($newTeam));
 
     $response = $this->actingAs($this->user)->post(route('teams.switch', $newTeam->id));
-
     $response->assertRedirect(route('dashboard'));
+
     $this->user->refresh();
+
     $this->assertEquals($this->user->current_team_id, $newTeam->id);
 });
 

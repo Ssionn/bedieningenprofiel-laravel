@@ -39,10 +39,4 @@ return [
             'button' => 'Opslaan',
         ],
     ],
-
-    // Changing to english because of language change
-    'notifications' => [
-        'saved' => 'Your account information has been saved successfully',
-        'language' => 'Your language preference has been saved successfully',
-    ],
 ];

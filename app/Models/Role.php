@@ -15,4 +15,11 @@ class Role extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function prettierRole(): string
+    {
+        $removedUnderscores = str_replace('_', '', $this->name);
+
+        return ucfirst($removedUnderscores);
+    }
 }

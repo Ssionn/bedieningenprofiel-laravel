@@ -41,7 +41,7 @@ class Localizer extends Component
             ]);
 
         Notification::make()
-            ->title(__('settings/index.notifications.language'))
+            ->title(__('notification.settings.language'))
             ->icon('heroicon-o-check-circle')
             ->duration(2500)
             ->success()

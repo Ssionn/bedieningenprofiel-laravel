@@ -1,4 +1,4 @@
-<div class="bg-secondary-full dark:bg-primary-full border dark:border-primary-light w-full md:w-2/3 rounded-sm p-2">
+<div class="bg-secondary-full dark:bg-primary-full border dark:border-primary-light w-full md:w-2/3 rounded-lg p-2">
     <h1 class="font-medium text-2xl dark:text-primary-shadWhite">
         {{ __('settings/index.headers.background_color.header') }}
     </h1>
@@ -27,7 +27,7 @@
                     <div class="w-4 h-4 bg-primary-full dark:bg-primary-full"></div>
                 </div>
 
-                <x-button type="submit">
+                <x-button type="submit" class="rounded-sm">
                     {{ __('settings/index.headers.background_color.button') }}
                 </x-button>
             </div>
@@ -38,7 +38,7 @@
 <script>
     window.translations = {
         theme: {
-            notification: "{{ __('settings/index.headers.background_color.notification') }}"
+            notification: "{{ __('notification.settings.background_color') }}"
         }
     };
 </script>
