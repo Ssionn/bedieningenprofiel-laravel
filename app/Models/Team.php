@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\IsHashed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +13,7 @@ class Team extends Model
 {
     /** @use HasFactory<\Database\Factories\TeamFactory> */
     use HasFactory;
+    use IsHashed;
 
     public function owner(): BelongsTo
     {
@@ -26,5 +28,11 @@ class Team extends Model
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->using(TeamUser::class)->withPivot('role_id');
+    }
+
+    public function getRouteKey(): string
+    {
+        return $this->connectedSalt('teams')
+            ->getRouteKeyForModel();
     }
 }
