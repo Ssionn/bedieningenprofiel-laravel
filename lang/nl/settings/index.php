@@ -25,6 +25,18 @@ return [
 
             'button' => 'Opslaan',
         ],
+        'current_plan' => [
+            'header' => 'Huidig plan',
+            'subheader' => 'Bekijk uw huidige plan',
+
+            'free' => 'Gratis',
+            'pro' => 'Pro',
+            'pro_plus' => 'Pro+',
+
+            'team_limit' => 'Teams: :current_amount / :plan_limit',
+            'team_limit_exceeded' => 'U heeft de teamlimiet voor uw huidige plan overschreden',
+            'change_plan' => 'Verander plan',
+        ],
         'background_color' => [
             'header' => 'Achtergrondkleur',
             'subheader' => 'Selecteer uw voorkeursachtergrondkleur',

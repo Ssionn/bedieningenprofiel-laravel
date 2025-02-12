@@ -10,7 +10,6 @@ test('users schema has expected columns', function () {
             'email',
             'email_verified_at',
             'password',
-            'max_teams',
             'remember_token',
             'created_at',
             'updated_at',
@@ -47,9 +46,34 @@ test('roles schema has expected columns', function () {
     );
 });
 
+test('plans schema has expected columns', function () {
+    $this->assertTrue(
+        Schema::hasColumns('plans', [
+            'id',
+            'name',
+            'price',
+            'max_teams',
+            'max_users_per_team',
+            'created_at',
+            'updated_at',
+        ]),
+        'The plans table is missing expected columns.'
+    );
+});
+
 test('foreign keys are correctly defined', function () {
     $this->assertTrue(
         Schema::hasColumn('teams', 'user_id'),
         'The teams table is missing the owner_id foreign key.'
+    );
+
+    $this->assertTrue(
+        Schema::hasColumn('user_subscription', 'plan_id'),
+        'The user_subscription table is missing the plan_id foreign key.'
+    );
+
+    $this->assertTrue(
+        Schema::hasColumn('user_subscription', 'user_id'),
+        'The user_subscription table is missing the user_id foreign key.'
     );
 });

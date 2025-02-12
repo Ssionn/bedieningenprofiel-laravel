@@ -18,8 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'Illuminate\Routing\Middleware\SubstituteBindings',
             'App\Http\Middleware\SetLocale',
         ]);
+        $middleware->group('auth', [
+            'Illuminate\Auth\Middleware\Authenticate',
+            'App\Http\Middleware\PlanMiddleware',
+        ]);
         $middleware->group('teams', [
             'App\Http\Middleware\CanCreateTeamsMiddleware',
+            'App\Http\Middleware\TeamUserLimit',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

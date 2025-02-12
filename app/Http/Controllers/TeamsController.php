@@ -29,12 +29,6 @@ class TeamsController extends Controller
     {
         $team = $this->teamRepository->createTeam($request->only('name', 'description'));
 
-        $team->refresh();
-
-        $this->teamRepository->updateRemainingInvitations(
-            $team
-        );
-
         Notification::make()
             ->title(__('notification.teams.team_created'))
             ->success()

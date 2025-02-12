@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
@@ -62,6 +63,27 @@ class User extends Authenticatable implements HasMedia
             ->wherePivot('team_id', '!=', $this->current_team_id);
     }
 
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(UserSubscription::class, 'user_id');
+    }
+
+    public function activeSubscription(): HasOne
+    {
+        return $this->hasOne(UserSubscription::class)
+            ->where('status', 'active')
+            ->where('starts_at', '<=', now())
+            ->where(function ($query) {
+                $query->where('ends_at', '>', now())
+                    ->orWhereNull('ends_at');
+            });
+    }
+
+    public function activePlan(): Plan
+    {
+        return $this->activeSubscription?->plan;
+    }
+
     public function currentTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'current_team_id');
@@ -77,9 +99,22 @@ class User extends Authenticatable implements HasMedia
         return $this->id === $team->user_id;
     }
 
+    public function canAddMembers(): bool
+    {
+        if (! $this->activeSubscription) {
+            return false;
+        }
+
+        return $this->currentTeam->members()->count() < $this->activePlan()->max_users_per_team;
+    }
+
     public function canCreateTeams(): bool
     {
-        return $this->teams()->count() < $this->max_teams;
+        if (! $this->activeSubscription) {
+            return false;
+        }
+
+        return $this->ownedTeams()->count() < $this->activePlan()->max_teams;
     }
 
     public function hasTeams(): bool

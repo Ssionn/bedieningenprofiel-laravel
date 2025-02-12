@@ -22,8 +22,6 @@ class TeamFactory extends Factory
             'state' => $this->faker->state,
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
-            'team_member_limit' => 5,
-            'remaining_invitations' => 5,
             'user_id' => 1,
         ];
     }

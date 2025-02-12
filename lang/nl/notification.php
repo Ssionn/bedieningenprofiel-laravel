@@ -4,6 +4,8 @@ return [
     'teams' => [
         'team_already_exists' => 'Een team met deze naam bestaat al',
         'team_created' => 'Team succesvol aangemaakt',
+
+        'team_user_limit' => 'Je hebt het limiet van het aantal gebruikers in een team bereikt',
     ],
 
     'switch' => [
@@ -15,5 +17,9 @@ return [
         'saved' => 'Uw accountinformatie is succesvol opgeslagen',
         'language' => 'Your language preference has been saved successfully',
         'background_color' => 'Uw achtergrondkleurvoorkeur is succesvol opgeslagen',
+    ],
+
+    'plan' => [
+        'upgrade' => 'Upgrade uw plan alstublieft',
     ],
 ];

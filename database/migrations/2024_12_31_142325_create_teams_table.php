@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->integer('team_member_limit')->default(5);
-            $table->integer('remaining_invitations')->default(5);
             $table->foreignIdFor(User::class, 'user_id')->constrained('users');
             $table->timestamps();
         });

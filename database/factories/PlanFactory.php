@@ -16,29 +16,41 @@ class PlanFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->randomElement([
-            'free',
-            'pro',
-            'pro_plus',
-        ]);
-
         return [
-            'name' => $name,
-            'price' => match ($name) {
-                'free' => 0,
-                'pro' => 4999,
-                'pro_plus' => 9999,
-            },
-            'max_teams' => match ($name) {
-                'free' => 1,
-                'pro' => 5,
-                'pro_plus' => 10,
-            },
-            'max_users_per_team' => match ($name) {
-                'free' => 5,
-                'pro' => 15,
-                'pro_plus' => 30,
-            },
+            'name' => 'free',
+            'price' => 0,
+            'max_teams' => 1,
+            'max_users_per_team' => 5,
         ];
+    }
+
+    public function free(): Factory
+    {
+        return $this->state([
+            'name' => 'free',
+            'price' => 0,
+            'max_teams' => 1,
+            'max_users_per_team' => 5,
+        ]);
+    }
+
+    public function pro(): Factory
+    {
+        return $this->state([
+            'name' => 'pro',
+            'price' => 4999,
+            'max_teams' => 5,
+            'max_users_per_team' => 15,
+        ]);
+    }
+
+    public function proPlus(): Factory
+    {
+        return $this->state([
+            'name' => 'pro_plus',
+            'price' => 9999,
+            'max_teams' => 10,
+            'max_users_per_team' => 30,
+        ]);
     }
 }

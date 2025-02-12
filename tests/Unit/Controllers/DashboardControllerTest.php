@@ -8,7 +8,7 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = User::factory()->create();
+    $this->user = User::factory()->withProPlusPlan()->create();
 });
 
 test('can show the dashboard for the user', function () {

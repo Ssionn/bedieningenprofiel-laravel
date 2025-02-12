@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Enums\Locale;
+use App\Models\Plan;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Notifications\Notification;
 
@@ -31,6 +33,20 @@ class AuthRepository
                 ->danger()
                 ->send();
         }
+
+        return $this;
+    }
+
+    public function addFreePlan(): self
+    {
+        $freePlan = Plan::where('name', 'free')->first();
+
+        $this->user->subscriptions()->create([
+            'plan_id' => $freePlan->id,
+            'starts_at' => now(),
+            'ends_at' => now()->addYears(10),
+            'status' => 'active',
+        ]);
 
         return $this;
     }

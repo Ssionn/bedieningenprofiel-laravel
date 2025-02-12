@@ -8,6 +8,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
     Artisan::call('migrate:fresh');
+
+    $this->seed();
 });
 
 test('User model has casts', function () {
@@ -22,7 +24,7 @@ test('User model has casts', function () {
 });
 
 it('returns a default avatar when no avatar is uploaded', function () {
-    $user = User::factory()->create([
+    $user = User::factory()->withProPlusPlan()->create([
         'username' => 'JohnDoe',
     ]);
 
@@ -33,7 +35,7 @@ it('returns a default avatar when no avatar is uploaded', function () {
 it('returns the uploaded avatar URL if it exists', function () {
     Storage::fake('public');
 
-    $user = User::factory()->create();
+    $user = User::factory()->withProPlusPlan()->create();
 
     $media = Media::create([
         'model_type' => User::class,
@@ -59,25 +61,25 @@ it('returns the uploaded avatar URL if it exists', function () {
 });
 
 test('email is not shortened if it is within maxLength', function () {
-    $user = User::factory()->create(['email' => 'short@email.com']);
+    $user = User::factory()->withProPlusPlan()->create(['email' => 'short@email.com']);
 
     expect($user->getShortenedEmailAttribute())->toBe('short@email.com');
 });
 
 test('email is shortened if it exceeds maxLength without "@"', function () {
-    $user = User::factory()->create(['email' => 'verylongemailwithoutatsymbol']);
+    $user = User::factory()->withProPlusPlan()->create(['email' => 'verylongemailwithoutatsymbol']);
 
     expect($user->getShortenedEmailAttribute(10))->toBe('verylongem...');
 });
 
 test('email is shortened if it exceeds maxLength and contains "@"', function () {
-    $user = User::factory()->create(['email' => 'thisisalongemail@testingthis.com']);
+    $user = User::factory()->withProPlusPlan()->create(['email' => 'thisisalongemail@testingthis.com']);
 
     expect($user->getShortenedEmailAttribute(20))->toBe('t...@testingthis.com');
 });
 
 test('email is shortened when the domain leaves no room for username', function () {
-    $user = User::factory()->create(['email' => 'username@longdomain.com']);
+    $user = User::factory()->withProPlusPlan()->create(['email' => 'username@longdomain.com']);
 
     expect($user->getShortenedEmailAttribute(10))->toBe('usernam...');
 });
@@ -98,7 +100,7 @@ test('User has teams that are sorted by owner', function () {
 });
 
 test('User can create a team below count of maximum teams', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->withProPlusPlan()->create();
 
     $canCreateTeams = $user->canCreateTeams();
 

@@ -3,10 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CanCreateTeamsMiddleware
+class PlanMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,10 +16,16 @@ class CanCreateTeamsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->teams()->count() < auth()->user()->activePlan()->max_teams) {
+        if (auth()->user()->activePlan()->exists()) {
             return $next($request);
         }
 
-        abort(403);
+        Notification::make()
+            ->title(__('notifcation.plan.upgrade'))
+            ->info()
+            ->duration(2500)
+            ->send();
+
+        return redirect()->route('settings');
     }
 }

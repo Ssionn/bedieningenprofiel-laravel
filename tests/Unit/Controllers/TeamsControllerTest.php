@@ -3,6 +3,7 @@
 use App\Conversions\CastJson;
 use App\Models\Team;
 use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Artisan;
 
 beforeEach(function () {
@@ -10,9 +11,11 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = User::factory()->create();
+    $this->user = User::factory()->withProPlusPlan()->create();
 
     Team::factory()->create(['user_id' => $this->user->id]);
+
+    $this->user->refresh();
 });
 
 test('can visit create team page', function () {
@@ -65,11 +68,32 @@ test('can switch team', function () {
     $this->assertTrue($this->user->teamsWithoutCurrent()->get()->contains($newTeam));
 
     $response = $this->actingAs($this->user)->post(route('teams.switch', $newTeam->id));
+
     $response->assertRedirect(route('dashboard'));
 
     $this->user->refresh();
 
     $this->assertEquals($this->user->current_team_id, $newTeam->id);
+});
+
+test('cannot switch to team that user is already on', function () {
+    $team = $this->user->ownedTeams()->first();
+    $this->user->update(['current_team_id' => $team->id]);
+
+    $response = $this->actingAs($this->user)->post(route('teams.switch', $team->id));
+
+    Notification::assertNotified(
+        Notification::make()
+            ->title(__('notification.switch.already_on_team'))
+            ->info()
+            ->duration(2500)
+    );
+
+    $response->assertRedirect(route('dashboard'));
+
+    $this->user->refresh();
+
+    $this->assertEquals($this->user->current_team_id, $team->id);
 });
 
 test('can visit team page', function () {

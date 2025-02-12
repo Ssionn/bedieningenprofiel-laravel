@@ -10,7 +10,7 @@
         <form wire:submit.prevent="updateAccountInformation" class="flex flex-col w-full" x-data="{ file: null }">
             <div class="flex flex-col sm:flex-row items-center w-full">
                 <div class="flex flex-row w-full space-x-2">
-                    <img src="{{ Auth::user()->defaultAvatar() }}" alt="Profile Picture"
+                    <img src="{{ auth()->user()->defaultAvatar() }}" alt="Profile Picture"
                         class="rounded-xl w-48 h-48 object-cover border border-gray-200 hover:border-gray-700">
                 </div>
             </div>

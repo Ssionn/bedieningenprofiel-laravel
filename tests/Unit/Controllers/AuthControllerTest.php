@@ -8,7 +8,7 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = User::factory()->create();
+    $this->user = User::factory()->withProPlusPlan()->create();
 });
 
 test('that it can visit the login page', function () {

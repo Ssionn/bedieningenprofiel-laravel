@@ -2,12 +2,20 @@
 
 namespace App\Repositories;
 
+use App\Models\Role;
 use App\Models\Team;
 use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
 
 class TeamRepository
 {
+    private readonly array $permissions;
+
+    public function __construct()
+    {
+        $this->permissions = config('permissions');
+    }
+
     public function createTeam(
         array $data
     ): Team|RedirectResponse {
@@ -23,12 +31,11 @@ class TeamRepository
 
         $team = auth()->user()->ownedTeams()->create($data);
 
-        $teamLeaderRole = $team->roles()->create([
-            'name' => 'team_leader',
-            'permissions' => ['*'],
-        ]);
+        $this->teamPermissions($team, $this->permissions);
 
-        $team->members()->attach(auth()->user(), ['role_id' => $teamLeaderRole->id]);
+        $team->members()->attach(auth()->user(), [
+            'role_id' => $this->getRole('teamleader')->id,
+        ]);
 
         auth()->user()->update(['current_team_id' => $team->id]);
 
@@ -49,11 +56,19 @@ class TeamRepository
         return Team::where('name', $teamName)->exists();
     }
 
-    public function updateRemainingInvitations(
-        Team $team
-    ): void {
-        $team->update([
-            'remaining_invitations' => $team->remaining_invitations - 1,
-        ]);
+    protected function getRole(
+        string $roleName
+    ): Role {
+        return Role::where('name', $roleName)->first();
+    }
+
+    protected function teamPermissions(Team $team, array $permissions): void
+    {
+        foreach ($permissions as $role => $permissions) {
+            $team->roles()->create([
+                'name' => $role,
+                'permissions' => array_keys($permissions),
+            ]);
+        }
     }
 }

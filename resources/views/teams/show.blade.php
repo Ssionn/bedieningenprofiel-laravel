@@ -49,20 +49,12 @@
                     </div>
 
                     @can('add_team_member', $currentTeam)
-                        <div class="flex flex-col items-center">
-                            <x-button type="button" class="flex items-center text-xs rounded-md">
-                                <a href="" class="inline-flex items-center">
-                                    <i data-lucide="plus" class="mr-1 w-4 h-4 dark:text-primary-full"></i>
-                                    {{ __('teams/show.table.users_add') }}
-                                </a>
-                            </x-button>
-                            <span class="text-xs text-gray-500 mt-1">
-                                {{ __('teams/show.table.users_add_amount', [
-                                    'current_amount' => $currentTeam->remainingUsers(),
-                                    'max_amount' => $currentTeam->team_member_limit,
-                                ]) }}
-                            </span>
-                        </div>
+                        <x-button type="button" class="flex items-center text-xs rounded-md">
+                            <a href="" class="inline-flex items-center">
+                                <i data-lucide="plus" class="mr-1 w-4 h-4 dark:text-primary-full"></i>
+                                {{ __('teams/show.table.users_add') }}
+                            </a>
+                        </x-button>
                     @endcan
                 </div>
 

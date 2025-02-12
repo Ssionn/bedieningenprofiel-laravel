@@ -14,7 +14,8 @@ class AuthController extends Controller
 {
     public function __construct(
         protected AuthRepository $authRepository,
-    ) {}
+    ) {
+    }
 
     public function login(): View
     {
@@ -46,7 +47,7 @@ class AuthController extends Controller
             $request->name,
             $request->email,
             $request->password
-        )->initLocalization();
+        )->addFreePlan()->initLocalization();
 
         Auth::login($user);
 

@@ -25,6 +25,18 @@ return [
 
             'button' => 'Save',
         ],
+        'current_plan' => [
+            'header' => 'Current plan',
+            'subheader' => 'View your current plan',
+
+            'free' => 'Free',
+            'pro' => 'Pro',
+            'pro_plus' => 'Pro+',
+
+            'team_limit' => 'Teams: :current_amount / :plan_limit',
+            'team_limit_exceeded' => 'You have exceeded the team limit for your current plan',
+            'change_plan' => 'Change plan',
+        ],
         'background_color' => [
             'header' => 'Background color',
             'subheader' => 'Select your preferred background color',
