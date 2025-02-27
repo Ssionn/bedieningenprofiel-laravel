@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="sm:ml-64 p-2">
+    <div class="p-2">
         <div class="flex flex-col items-center space-y-4">
             <div class="w-full rounded-lg p-4 border bg-secondary-full dark:bg-primary-full dark:border-primary-light">
                 <div class="flex justify-between items-center">

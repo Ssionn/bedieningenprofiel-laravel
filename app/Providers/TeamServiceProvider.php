@@ -43,7 +43,7 @@ class TeamServiceProvider extends ServiceProvider
 
                 $view->with([
                     'userTeams' => $user->teams,
-                    'currentTeam' => $user->teams->find($user->current_team_id),
+                    'currentTeam' => $user->currentTeam,
                 ]);
             }
         });
