@@ -41,7 +41,7 @@ test('can create a team', function () {
     $this->assertDatabaseHas('roles', [
         'team_id' => $teamLeaderRole->team_id,
         'name' => $teamLeaderRole->name,
-        'permissions' => CastJson::convert(['*']),
+        'permissions' => CastJson::convert(["edit_team", "delete_team", "add_team_member"]),
     ]);
 
     $this->assertDatabaseHas('team_user', [
@@ -98,10 +98,14 @@ test('cannot switch to team that user is already on', function () {
 
 test('can visit team page', function () {
     $this->actingAs($this->user);
+    $ownedTeam = $this->user->ownedTeams()->first();
 
-    $team = $this->user->ownedTeams()->first();
+    $this->user->update([
+        'current_team_id' => $ownedTeam->id
+    ]);
+    $team = $this->user->currentTeam()->first();
 
-    $response = $this->actingAs($this->user)->get(route('teams.show', $team->id));
+    $response = $this->actingAs($this->user)->get(route('teams.show', $team));
 
     $response->assertStatus(200);
 });
