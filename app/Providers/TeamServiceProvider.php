@@ -37,15 +37,13 @@ class TeamServiceProvider extends ServiceProvider
         }
 
         View::composer('layouts.navigation', function ($view) {
-            if (auth()->check()) {
-                $user = auth()->user();
-                $user->load('teams');
+            $user = auth()->user();
+            $user->load('teams');
 
-                $view->with([
-                    'userTeams' => $user->teams,
-                    'currentTeam' => $user->currentTeam,
-                ]);
-            }
+            $view->with([
+                'userTeams' => $user->teams,
+                'currentTeam' => $user->teams->find($user->current_team_id),
+            ]);
         });
     }
 }
