@@ -18,6 +18,6 @@ return [
 
     'links' => [
         'new_team' => 'Nieuwe team...',
-        'upgrade_plan' => 'Upgrade plan'
+        'upgrade_plan' => 'Upgrade plan',
     ],
 ];

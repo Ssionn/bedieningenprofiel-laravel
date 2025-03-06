@@ -14,8 +14,7 @@ class AuthController extends Controller
 {
     public function __construct(
         protected AuthRepository $authRepository,
-    ) {
-    }
+    ) {}
 
     public function login(): View
     {

@@ -89,23 +89,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($currentTeam->members as $user)
-                                <tr onclick="window.location='#'"
-                                    class="border-b border-gray-200 hover:bg-gray-50 dark:hover:bg-primary-light cursor-pointer">
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite font-medium">
-                                        {{ $user->name }}
-                                    </td>
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite">
-                                        {{ $user->pivot->role->prettierRole() }}
-                                    </td>
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite">
-                                        {{ $user->email }}
-                                    </td>
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite">
-                                        {{ $user->created_at->format('d M Y') }}
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if ($currentTeam->members)
+                                @foreach ($currentTeam->members as $user)
+                                    <tr onclick="window.location='#'"
+                                        class="border-b border-gray-200 hover:bg-gray-50 dark:hover:bg-primary-light cursor-pointer">
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite font-medium">
+                                            {{ $user->name }}
+                                        </td>
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite">
+                                            {{ $user->pivot->role->prettierRole() }}
+                                        </td>
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite">
+                                            {{ $user->email }}
+                                        </td>
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite">
+                                            {{ $user->created_at->format('d M Y') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <span class="text-center font-semibold">{{ __('teams/show.no_users') }}</span>
+                            @endif
                         </tbody>
                     </table>
                 </div>
