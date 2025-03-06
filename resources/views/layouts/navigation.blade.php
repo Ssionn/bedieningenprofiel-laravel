@@ -28,7 +28,7 @@
                     @endif
                     <div class="mb-4 flex flex-col space-y-1">
                         @foreach ($userTeams as $team)
-                            <form action="{{ route('teams.switch', $team->id) }}" method="POST">
+                            <form action="{{ route('teams.switch', $team) }}" method="POST">
                                 @csrf
                                 <button type="submit"
                                     class="hover:bg-gray-200 rounded-sm w-full py-1.5 px-4 dark:bg-secondary-full dark:text-primary-full flex justify-between items-center">
@@ -65,8 +65,8 @@
             <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
                 class="w-60 bg-secondary-full dark:bg-primary-full rounded-sm border-[1px] border-gray-300 dark:border-primary-light absolute bottom-16">
                 <ul class="">
-                    <x-sidebar-tab href="{{ route('settings') }}" active="{{ request()->routeIs('settings') }}"
-                        rounded="{{ $rounded = false }}">
+                    <x-sidebar-tab href="{{ route('settings', auth()->user()) }}"
+                        active="{{ request()->routeIs('settings') }}" rounded="{{ $rounded = false }}">
                         {{ __('navigation/sidebar.user_dropdown.settings') }}
                     </x-sidebar-tab>
                     <li>
@@ -89,8 +89,8 @@
                         class="w-8 h-8 rounded-full object-cover border" />
 
                     <div class="flex flex-col items-start">
-                        <span class="font-medium">{{ Auth::user()->name }}</span>
-                        <span class="text-xs text-gray-400">{{ Auth::user()->getShortenedEmailAttribute() }}</span>
+                        <span class="font-medium">{{ auth()->user()->name }}</span>
+                        <span class="text-xs text-gray-400">{{ auth()->user()->getShortenedEmailAttribute() }}</span>
                     </div>
                 </div>
             </button>
@@ -121,8 +121,9 @@
                 <img src="{{ auth()->user()->defaultAvatar() ?? auth()->user()->avatar }}"
                     class="w-12 h-12 rounded-md object-cover border" />
                 <div>
-                    <span class="block font-medium text-lg dark:text-primary-shadWhite">{{ Auth::user()->name }}</span>
-                    <span class="block text-sm text-gray-400">{{ Auth::user()->email }}</span>
+                    <span
+                        class="block font-medium text-lg dark:text-primary-shadWhite">{{ auth()->user()->name }}</span>
+                    <span class="block text-sm text-gray-400">{{ auth()->user()->email }}</span>
                 </div>
             </div>
 
@@ -151,7 +152,7 @@
                         @endif
                         <div class="mb-4 flex flex-col space-y-1">
                             @foreach ($userTeams as $team)
-                                <form action="{{ route('teams.switch', $team->id) }}" method="POST">
+                                <form action="{{ route('teams.switch', $team) }}" method="POST">
                                     @csrf
                                     <button type="submit"
                                         class="hover:bg-gray-200 rounded-sm w-full py-1.5 px-4 dark:bg-secondary-full dark:text-primary-full flex justify-between items-center">
@@ -186,7 +187,8 @@
 
             <div class="p-4 space-y-4 border-t border-gray-200">
                 <ul class="space-y-1">
-                    <x-sidebar-tab href="{{ route('settings') }}" active="{{ request()->routeIs('settings') }}">
+                    <x-sidebar-tab href="{{ route('settings', auth()->user()) }}"
+                        active="{{ request()->routeIs('settings') }}">
                         {{ __('navigation/sidebar.user_dropdown.settings') }}
                     </x-sidebar-tab>
                     <li>

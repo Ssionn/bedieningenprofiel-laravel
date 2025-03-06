@@ -9,11 +9,11 @@
     <div class="flex items-center justify-between mt-4">
         <div>
             <span
-                class="text-3xl font-bold dark:text-secondary-full">{{ __('settings/index.headers.current_plan.' . auth()->user()->activePlan()->name) }}</span>
+                class="text-3xl font-bold dark:text-secondary-full">{{ __('settings/index.headers.current_plan.' . $user->activePlan()->name) }}</span>
             <p class="text-xs text-gray-400 italic mt-1">
                 {{ __('settings/index.headers.current_plan.team_limit', [
                     'current_amount' => auth()->user()->ownedTeams()->count(),
-                    'plan_limit' => auth()->user()->activePlan()->max_teams,
+                    'plan_limit' => $user->activePlan()->max_teams,
                 ]) }}
             </p>
             @if (!auth()->user()->canCreateTeams())

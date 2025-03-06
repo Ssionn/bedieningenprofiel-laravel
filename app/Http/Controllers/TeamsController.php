@@ -38,9 +38,9 @@ class TeamsController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function switchTeam(int $teamId): RedirectResponse
+    public function switchTeam(Team $team): RedirectResponse
     {
-        if (auth()->user()->currentTeam->id === $teamId) {
+        if (auth()->user()->currentTeam->id === $team->id) {
             Notification::make()
                 ->title(__('notification.switch.already_on_team'))
                 ->info()
@@ -51,7 +51,7 @@ class TeamsController extends Controller
         }
 
         $this->teamRepository->switchTeamId(
-            $teamId
+            $team->id
         );
 
         Notification::make()
