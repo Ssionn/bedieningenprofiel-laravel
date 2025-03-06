@@ -13,8 +13,7 @@ class TeamsController extends Controller
 {
     public function __construct(
         protected TeamRepository $teamRepository
-    ) {
-    }
+    ) {}
 
     public function show(Team $currentTeam): View
     {

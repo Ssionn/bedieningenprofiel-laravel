@@ -48,7 +48,7 @@ return [
         'users' => [
             'salt' => 'VegmkORzAFBGWEkmk/Pxf8P7Kh8bg2Tix9iDbP5kOYk=',
             'length' => 12,
-        ]
+        ],
 
     ],
 

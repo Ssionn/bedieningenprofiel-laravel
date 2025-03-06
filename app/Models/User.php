@@ -20,8 +20,8 @@ class User extends Authenticatable implements HasMedia
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
 
-    use IsHashed;
     use InteractsWithMedia;
+    use IsHashed;
     use Notifiable;
 
     protected $hidden = [
