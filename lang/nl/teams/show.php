@@ -11,5 +11,6 @@ return [
         'users_role' => 'Rol',
         'users_email' => 'E-mail',
         'users_joined_at' => 'Toegetreden op',
+        'no_users' => 'Er zijn gebruikers gevonden voor dit team',
     ],
 ];

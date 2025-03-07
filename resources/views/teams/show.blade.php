@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="sm:ml-64 p-2">
+    <div class="p-2">
         <div class="flex flex-col items-center space-y-4">
             <div class="w-full rounded-lg p-4 border bg-secondary-full dark:bg-primary-full dark:border-primary-light">
                 <div class="flex justify-between items-center">
@@ -89,23 +89,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($currentTeam->members as $user)
-                                <tr onclick="window.location='#'"
-                                    class="border-b border-gray-200 hover:bg-gray-50 dark:hover:bg-primary-light cursor-pointer">
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite font-medium">
-                                        {{ $user->name }}
-                                    </td>
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite">
-                                        {{ $user->pivot->role->prettierRole() }}
-                                    </td>
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite">
-                                        {{ $user->email }}
-                                    </td>
-                                    <td class="p-4 text-sm dark:text-primary-shadWhite">
-                                        {{ $user->created_at->format('d M Y') }}
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if ($currentTeam->members)
+                                @foreach ($currentTeam->members as $user)
+                                    <tr onclick="window.location='#'"
+                                        class="border-b border-gray-200 hover:bg-gray-50 dark:hover:bg-primary-light cursor-pointer">
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite font-medium">
+                                            {{ $user->name }}
+                                        </td>
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite">
+                                            {{ $user->pivot->role->prettierRole() }}
+                                        </td>
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite">
+                                            {{ $user->email }}
+                                        </td>
+                                        <td class="p-4 text-sm dark:text-primary-shadWhite">
+                                            {{ $user->created_at->format('d M Y') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <span class="text-center font-semibold">{{ __('teams/show.no_users') }}</span>
+                            @endif
                         </tbody>
                     </table>
                 </div>

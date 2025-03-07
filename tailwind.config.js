@@ -20,6 +20,7 @@ export default {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
                 roboto: ["Roboto", ...defaultTheme.fontFamily.sans],
+                alexandria: ["Alexandria", "sans-serif"],
             },
             colors: {
                 primary: {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\IsHashed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,7 @@ class User extends Authenticatable implements HasMedia
     use HasFactory;
 
     use InteractsWithMedia;
+    use IsHashed;
     use Notifiable;
 
     protected $hidden = [
@@ -124,7 +126,7 @@ class User extends Authenticatable implements HasMedia
 
     public function defaultAvatar(): string
     {
-        if (! $this->getMedia('user_avatar')->count()) {
+        if (! $this->getMedia('user_avatar')->count() > 0) {
             return 'https://ui-avatars.com/api/?name=' . urlencode($this->username) . '&background=random&color=random?size=128';
         }
 
@@ -155,5 +157,11 @@ class User extends Authenticatable implements HasMedia
         }
 
         return substr($username, 0, $availableLength) . '...' . $domain;
+    }
+
+    public function getRouteKey(): string
+    {
+        return $this->connectedSalt('users')
+            ->getRouteKeyForModel();
     }
 }

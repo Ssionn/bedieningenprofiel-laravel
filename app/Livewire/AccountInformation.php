@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Services\ImagePreperationService;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -12,6 +11,8 @@ use Livewire\WithFileUploads;
 class AccountInformation extends Component
 {
     use WithFileUploads;
+
+    public $user;
 
     public $avatarDropzone;
 
@@ -23,9 +24,9 @@ class AccountInformation extends Component
 
     public function mount(): void
     {
-        $this->username = Auth::user()->username;
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $this->username = $this->user->username;
+        $this->name = $this->user->name;
+        $this->email = $this->user->email;
     }
 
     public function updateAccountInformation()
@@ -37,23 +38,21 @@ class AccountInformation extends Component
             'email' => 'required|email|max:255',
         ]);
 
-        $user = Auth::user();
-
-        if ($user->getMedia('user_avatar')->count() > 0 && $this->avatarDropzone !== null) {
-            $user->getMedia('user_avatar')->first()->delete();
+        if ($this->user->getMedia('user_avatar')->count() > 0 && $this->avatarDropzone !== null) {
+            $this->user->getMedia('user_avatar')->first()->delete();
         }
 
         if ($this->avatarDropzone !== null) {
             $path = 'avatars/' . $user->id;
             $imagePrep = ImagePreperationService::temporarilyStoreFileUsingPath($path, $this->avatarDropzone);
 
-            $user->addMedia(storage_path('app/public/' . $path . '/' . $imagePrep))
+            $this->user->addMedia(storage_path('app/public/' . $path . '/' . $imagePrep))
                 ->toMediaCollection('user_avatar', 'spaces');
 
             ImagePreperationService::removeRecordAndFile($imagePrep);
         }
 
-        $user->update([
+        $this->user->update([
             'username' => $this->username,
             'name' => $this->name,
             'email' => $this->email,
@@ -66,7 +65,7 @@ class AccountInformation extends Component
             ->success()
             ->send();
 
-        return redirect()->route('settings');
+        return redirect()->route('settings', $this->user);
     }
 
     public function render(): View

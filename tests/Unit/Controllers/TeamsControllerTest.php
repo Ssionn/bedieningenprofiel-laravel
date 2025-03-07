@@ -41,7 +41,7 @@ test('can create a team', function () {
     $this->assertDatabaseHas('roles', [
         'team_id' => $teamLeaderRole->team_id,
         'name' => $teamLeaderRole->name,
-        'permissions' => CastJson::convert(['*']),
+        'permissions' => CastJson::convert(['edit_team', 'delete_team', 'add_team_member']),
     ]);
 
     $this->assertDatabaseHas('team_user', [
@@ -54,7 +54,6 @@ test('can create a team', function () {
 
 test('can switch team', function () {
     $initialTeam = $this->user->ownedTeams()->first();
-    $initialTeamRole = $initialTeam->roles()->where('team_id', $initialTeam->id)->first();
     $this->user->update(['current_team_id' => $initialTeam->id]);
 
     $newTeam = Team::factory()->create(['user_id' => $this->user->id]);
@@ -67,7 +66,7 @@ test('can switch team', function () {
 
     $this->assertTrue($this->user->teamsWithoutCurrent()->get()->contains($newTeam));
 
-    $response = $this->actingAs($this->user)->post(route('teams.switch', $newTeam->id));
+    $response = $this->actingAs($this->user)->post(route('teams.switch', $newTeam));
 
     $response->assertRedirect(route('dashboard'));
 
@@ -80,7 +79,7 @@ test('cannot switch to team that user is already on', function () {
     $team = $this->user->ownedTeams()->first();
     $this->user->update(['current_team_id' => $team->id]);
 
-    $response = $this->actingAs($this->user)->post(route('teams.switch', $team->id));
+    $response = $this->actingAs($this->user)->post(route('teams.switch', $team));
 
     Notification::assertNotified(
         Notification::make()
@@ -98,10 +97,13 @@ test('cannot switch to team that user is already on', function () {
 
 test('can visit team page', function () {
     $this->actingAs($this->user);
+    $currentTeam = $this->user->ownedTeams()->first();
 
-    $team = $this->user->ownedTeams()->first();
+    $this->user->update([
+        'current_team_id' => $currentTeam->id,
+    ]);
 
-    $response = $this->actingAs($this->user)->get(route('teams.show', $team->id));
+    $response = $this->actingAs($this->user)->get(route('teams.show', $currentTeam));
 
     $response->assertStatus(200);
 });

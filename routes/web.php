@@ -20,14 +20,14 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::prefix('settings')->group(function () {
-            Route::get('/', [SettingsController::class, 'index'])->name('settings');
+            Route::get('/{user}', [SettingsController::class, 'index'])->name('settings');
         });
 
         Route::prefix('teams')->group(function () {
             Route::get('/create', [TeamsController::class, 'create'])->name('teams.create')->middleware('teams');
             Route::post('/create', [TeamsController::class, 'store'])->name('teams.store')->middleware('teams');
 
-            Route::post('/team-switch/{teamId}', [TeamsController::class, 'switchTeam'])->name('teams.switch');
+            Route::post('/team-switch/{team}', [TeamsController::class, 'switchTeam'])->name('teams.switch');
             Route::get('/{currentTeam}', [TeamsController::class, 'show'])->name('teams.show');
         });
     });
