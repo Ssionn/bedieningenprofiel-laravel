@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('can show the settings', function () {
-    $response = $this->actingAs($this->user)->get(route('settings'));
+    $response = $this->actingAs($this->user)->get(route('settings', $this->user));
 
     $response->assertStatus(200);
 });

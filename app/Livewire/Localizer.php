@@ -47,6 +47,6 @@ class Localizer extends Component
             ->success()
             ->send();
 
-        return redirect()->route('settings');
+        return redirect()->route('settings', auth()->user());
     }
 }

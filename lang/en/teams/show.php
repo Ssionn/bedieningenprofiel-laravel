@@ -11,6 +11,6 @@ return [
         'users_role' => 'Role',
         'users_email' => 'Email',
         'users_joined_at' => 'Joined at',
-        'no_users' => 'No users found for this team'
+        'no_users' => 'No users found for this team',
     ],
 ];

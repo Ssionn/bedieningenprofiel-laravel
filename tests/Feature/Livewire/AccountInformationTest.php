@@ -11,7 +11,7 @@ beforeEach(function () {
 
     $this->seed();
 
-    $this->user = User::factory()->create();
+    $this->user = User::factory()->withProPlusPlan()->create();
 });
 
 it('can update user information without image', function () {
