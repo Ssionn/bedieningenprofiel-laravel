@@ -12,3 +12,7 @@
     --light-dark: #09090B;
     --light-shadGray: #71717A;
 }
+
+[x-cloak] {
+    display: none !important;
+}

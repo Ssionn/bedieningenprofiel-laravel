@@ -8,10 +8,30 @@
                 </span>
             </a>
 
-            <div x-data="{ open: false }" class="relative inline-block">
-                <button id="current_team_dropdown" @click="open = !open"
-                    class="inline-flex items-center justify-between py-0.5 px-2 rounded-md hover:bg-gray-200 w-48 border border-slate-300"
-                    aria-haspopup="true" x-bind:aria-expanded="open">
+            <div x-data="{
+                open: false,
+                toggle() {
+                    if (this.open) {
+                        return this.close()
+                    }
+
+                    this.$refs.button.focus()
+
+                    this.open = true
+                },
+                close(focusAfter) {
+                    if (!this.open) return
+
+                    this.open = false
+
+                    focusAfter && focusAfter.focus()
+                }
+            }" x-on:keydown.escape.prevent.stop="close($refs.button)"
+                x-on:focusin.window="! $refs.panel.contains($event.target) && close()" x-id="['current_team_dropdown']"
+                class="relative inline-block">
+                <button x-ref="button" x-on:click="toggle()" :aria-expanded="open"
+                    :aria-controls="$id('current_team_dropdown')" type="button"
+                    class="inline-flex items-center justify-between py-0.5 px-2 rounded-md hover:bg-gray-200 w-48 border border-slate-300">
                     <div class="inline-flex items-center">
                         <x-lucide-users class="w-3 h-3 mr-2" />
                         @if (auth()->user()->currentTeam)
@@ -23,12 +43,8 @@
                     <x-lucide-separator-horizontal class="w-4 h-4" />
                 </button>
 
-                <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="transform opacity-0 scale-95"
-                    x-transition:enter-end="transform opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-75"
-                    x-transition:leave-start="transform opacity-100 scale-100"
-                    x-transition:leave-end="transform opacity-0 scale-95"
+                <div x-ref="panel" x-show="open" x-transition.origin.top.left x-on:click.outside="close($refs.button)"
+                    :id="$id('current_team_dropdown')" x-cloak
                     class="origin-top-left absolute left-full top-0 mt-0 ml-2 w-48 border border-gray-300 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                     role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <div class="p-1" role="none">
@@ -72,17 +88,33 @@
             </div>
         </div>
 
-        <div x-data="{ open: false }" class="relative inline-block">
+        <div x-data="{
+            open: false,
+            toggle() {
+                if (this.open) {
+                    return this.close()
+                }
+
+                this.$refs.button.focus()
+
+                this.open = true
+            },
+            close(focusAfter) {
+                if (!this.open) return
+
+                this.open = false
+
+                focusAfter && focusAfter.focus()
+            }
+        }" x-on:keydown.escape.prevent.stop="close($refs.button)"
+            x-on:focusin.window="! $refs.panel.contains($event.target) && close()" x-id="['user_dropdown']"
+            class="relative inline-block">
             <button id="profile_button" @click="open = !open" class="flex items-center">
                 <img src="{{ auth()->user()->defaultavatar() }}" class="w-8 h-8 object-cover rounded-full" />
             </button>
 
-            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="transform opacity-0 scale-95"
-                x-transition:enter-end="transform opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-75"
-                x-transition:leave-start="transform opacity-100 scale-100"
-                x-transition:leave-end="transform opacity-0 scale-95"
+            <div x-ref="panel" x-show="open" x-transition.origin.top.left x-on:click.outside="close($refs.button)"
+                :id="$id('user_dropdown')" x-cloak
                 class="origin-top-right absolute right-full top-0 mt-3 mr-2 w-60 border border-gray-300 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="profile_menu" aria-orientation="vertical" aria-labelledby="profile-menu">
                 <div class="p-1" role="none">
@@ -120,8 +152,8 @@
                 {{ __('navigation/topbar.tabs.dashboard') }}
             </x-topbar-navigation-tab>
             @can('view_current_team')
-                <x-topbar-navigation-tab href="{{ route('teams.show', $currentTeam->id) }}"
-                    active="{{ request()->routeIs('teams.show') }}">
+                <x-topbar-navigation-tab href="{{ route('teams.show', $currentTeam) }}"
+                    active="{{ request()->routeIs('teams.show', $currentTeam) }}">
                     {{ __('navigation/topbar.tabs.teams') }}
                 </x-topbar-navigation-tab>
             @endcan
@@ -153,8 +185,8 @@
                         {{ __('navigation/topbar.tabs.dashboard') }}
                     </x-mobile-nav-tab>
                     @can('view_current_team')
-                        <x-mobile-nav-tab href="{{ route('teams.show', $currentTeam->id) }}" icon='lucide-users'
-                            active="{{ request()->routeIs('teams.show', $currentTeam->id) }}">
+                        <x-mobile-nav-tab href="{{ route('teams.show', $currentTeam) }}" icon='lucide-users'
+                            active="{{ request()->routeIs('teams.show', $currentTeam) }}">
                             {{ __('navigation/topbar.tabs.teams') }}
                         </x-mobile-nav-tab>
                     @endcan
