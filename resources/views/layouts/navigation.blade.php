@@ -35,7 +35,7 @@
                         @can('view_any_attached_team')
                             @if ($userTeams->count() > 0)
                                 @foreach ($userTeams as $userTeam)
-                                    <form action="{{ route('teams.switch', $userTeam->id) }}" method="POST">
+                                    <form action="{{ route('teams.switch', $userTeam) }}" method="POST">
                                         @csrf
                                         <button type="submit"
                                             class="inline-flex items-center justify-between rounded-md hover:bg-gray-200 w-full px-3 py-1"
@@ -98,7 +98,7 @@
 
                     <hr class="mt-1 mb-1" />
 
-                    <x-topbar-dropdown-tab href="{{ route('settings') }}" icon="lucide-user-cog">
+                    <x-topbar-dropdown-tab href="{{ route('settings', auth()->user()) }}" icon="lucide-user-cog">
                         {{ __('navigation/topbar.user_dropdown.links.user_settings') }}
                     </x-topbar-dropdown-tab>
                     <form action="{{ route('logout') }}" method="POST" class="w-full">
@@ -188,7 +188,8 @@
                         class="origin-bottom-end absolute bottom-full border border-gray-300 right-4 w-11/12 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                         role="profile_menu" aria-orientation="vertical" aria-labelledby="profile-menu">
                         <div class="p-1" role="none">
-                            <x-topbar-dropdown-tab href="{{ route('settings') }}" icon="lucide-user-cog">
+                            <x-topbar-dropdown-tab href="{{ route('settings', auth()->user()) }}"
+                                icon="lucide-user-cog">
                                 {{ __('navigation/topbar.user_dropdown.links.user_settings') }}
                             </x-topbar-dropdown-tab>
                             <form action="{{ route('logout') }}" method="POST" class="w-full">
