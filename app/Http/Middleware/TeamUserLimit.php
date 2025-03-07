@@ -20,6 +20,8 @@ class TeamUserLimit
             return $next($request);
         }
 
+        $team = auth()->user()->currentTeam()->first();
+
         Notification::make()
             ->title(__('notification.team.team_user_limit'))
             ->icon('heroicon-o-x-circle')
@@ -27,6 +29,6 @@ class TeamUserLimit
             ->duration(2500)
             ->send();
 
-        return redirect()->route('teams.show');
+        return redirect()->route('teams.show', $team);
     }
 }
