@@ -8,10 +8,10 @@ use IcehouseVentures\LaravelChartjs\Facades\Chartjs;
 
 class TeamRoleDistributionChart extends BaseChart
 {
-    const chartTitle = "Total score for all roles";
+    protected const translation = 'charts/index.total_all_roles';
 
     public function __construct(
-        protected ChartRepository $chartRepository
+        protected ChartRepository $chartRepository,
     ) {
     }
 
@@ -20,7 +20,7 @@ class TeamRoleDistributionChart extends BaseChart
         $data = $this->chartRepository->getTeamRoleDistributionScores();
         $labels = [];
         $datasets = [
-            'label' => self::chartTitle,
+            'label' => $this->getTranslatedString(self::translation),
             'data' => []
         ];
 
@@ -60,7 +60,9 @@ class TeamRoleDistributionChart extends BaseChart
                     'display' => $display,
                     'text' => $title
                 ]
-            ]
+            ],
+            // temporary measure to not take the whole fucking screen over.
+            'responsive' => false,
         ];
     }
 }

@@ -18,4 +18,12 @@ abstract class BaseChart
     {
         return $color;
     }
+
+    /**
+    * Translates the given string.
+    */
+    public function getTranslatedString(string $translation): string
+    {
+        return __($translation);
+    }
 }
