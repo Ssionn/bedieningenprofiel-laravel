@@ -37,6 +37,20 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
+    public function ownedChurch(): HasOne
+    {
+        return $this->hasOne(Church::class, 'church_owner_id');
+    }
+
+    public function canCreateChurch(): bool
+    {
+        if ($this->ownedChurch()->exists()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function ownedTeams(): HasMany
     {
         return $this->hasMany(Team::class, 'user_id');

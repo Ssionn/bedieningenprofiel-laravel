@@ -13,8 +13,12 @@ class Team extends Model
 {
     /** @use HasFactory<\Database\Factories\TeamFactory> */
     use HasFactory;
-
     use IsHashed;
+
+    public function church(): BelongsTo
+    {
+        return $this->belongsTo(Church::class);
+    }
 
     public function owner(): BelongsTo
     {

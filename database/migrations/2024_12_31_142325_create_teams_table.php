@@ -17,13 +17,16 @@ return new class extends Migration
                 ->unique()
                 ->nullable();
             $table->string('church_address');
+            $table->foreignIdFor(User::class, 'church_owner_id');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('description')->nullable();
+            $table->string('status')->default('active');
             $table->foreignIdFor(User::class, 'user_id')->constrained('users');
             $table->foreignIdFor(Church::class, 'church_id')->constrained('churches');
             $table->timestamps();
