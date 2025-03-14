@@ -19,7 +19,7 @@ class TeamRepository
     public function createTeam(
         array $data
     ): Team|RedirectResponse {
-        $data['church_id'] = auth()->user()->ownedChurch()->first()->pluck('id');
+        $data['church_id'] = auth()->user()->church->id;
 
         if ($this->teamExists($data['name'])) {
             Notification::make()

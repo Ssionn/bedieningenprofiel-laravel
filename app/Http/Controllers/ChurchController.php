@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateChurchRequest;
 use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ChurchController extends Controller
@@ -14,13 +14,9 @@ class ChurchController extends Controller
         return view('churches.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(CreateChurchRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'church_name' => 'required|string|unique:churches|max:255',
-            'church_email' => 'required|string|email',
-            'church_address' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
         if (! $validated) {
             Notification::make()
@@ -29,13 +25,13 @@ class ChurchController extends Controller
                 ->duration(2500)
                 ->send();
 
-            return to_route('churches.create');
+            return redirect()->route('churches.create');
         }
 
         $this->createChurch(
-            $request->church_name,
-            $request->church_email,
-            $request->church_address,
+            $validated['church_name'],
+            $validated['church_email'],
+            $validated['church_address'],
         );
 
         Notification::make()
@@ -44,15 +40,19 @@ class ChurchController extends Controller
             ->duration(2500)
             ->send();
 
-        return to_route('dashboard');
+        return redirect()->route('dashboard');
     }
 
     protected function createChurch(string $name, string $email, string $address): self
     {
-        auth()->user()->ownedChurch()->create([
+        $church = auth()->user()->ownedChurch()->create([
             'church_name' => $name,
             'church_email' => $email,
             'church_address' => $address,
+        ]);
+
+        auth()->user()->update([
+            'church_id' => $church->id
         ]);
 
         return $this;

@@ -60,23 +60,31 @@
                         role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <div class="p-1" role="none">
                             @can('view_any_attached_team')
-                                @php $userTeams = auth()->user()->teams @endphp
-                                @if ($userTeams->count() > 0)
-                                    @foreach ($userTeams as $userTeam)
-                                        <form action="{{ route('teams.switch', $userTeam) }}" method="POST">
-                                            @csrf
-                                            <button type="submit"
-                                                class="inline-flex items-center justify-between rounded-md hover:bg-gray-200 w-full px-3 py-1"
-                                                role="menuitem">
-                                                <span class="text-sm font-medium">{{ $userTeam->name }}</span>
-                                                @if (auth()->user()->current_team_id == $userTeam->id)
-                                                    <x-lucide-circle-check class="w-4 h-4 text-emerald-500" />
-                                                @endif
-                                            </button>
-                                        </form>
-                                    @endforeach
-                                @else
-                                    <span class="text-sm px-3 py-1">{{ __('navigation/topbar.no_team_found') }}</span>
+                                @if (auth()->user()->ownedChurch()->exists())
+                                    <div class="flex flex-col items-start">
+                                        <div class="border-b border-gray-200 w-full py-1">
+                                            <span class="px-2">{{ auth()->user()->church->church_name }}</span>
+                                        </div>
+                                        @if (auth()->user()->teams->count() > 0)
+                                            @foreach (auth()->user()->teams as $userTeam)
+                                                <form action="{{ route('teams.switch', $userTeam) }}" method="POST"
+                                                    class="w-full mt-1">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="inline-flex items-center justify-between rounded-md hover:bg-gray-200 w-full px-2 py-1"
+                                                        role="menuitem">
+                                                        <span class="text-sm font-medium">{{ $userTeam->name }}</span>
+                                                        @if (auth()->user()->current_team_id == $userTeam->id)
+                                                            <x-lucide-circle-check class="w-4 h-4 text-emerald-500" />
+                                                        @endif
+                                                    </button>
+                                                </form>
+                                            @endforeach
+                                        @else
+                                            <span
+                                                class="text-sm px-2 py-1 mt-1">{{ __('navigation/topbar.no_team_found') }}</span>
+                                        @endif
+                                    </div>
                                 @endif
                             @endcan
 
